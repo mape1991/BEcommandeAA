@@ -1,0 +1,132 @@
+% !TEX encoding = IsoLatin
+\documentclass{report}
+
+%description: Rapport FICHE AUTOM AVANCEE
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Insertion de packages
+\usepackage[french]{babel} % pour dire que le texte est en fran?cais
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc} % pour les font postscript
+\usepackage{a4} % pour la taille
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{multirow}
+\usepackage{pdflscape}
+\usepackage{fix-cm}
+\usepackage[cyr]{aeguill} % Police vectorielle TrueType, guillemets fran?cais
+\usepackage[top=3cm, bottom=3cm, left=2.5cm, right=2.5cm]{geometry} %pour les marges
+\usepackage{epsfig} % pour g¥erer les images
+\usepackage{amsmath, amsthm} % tr`es bon mode math¥ematique
+\usepackage{amsfonts,amssymb}% permet la definition des ensembles
+\usepackage{float} % pour le placement des figure
+\usepackage{url} % pour une gestion efficace des url
+\usepackage{fancyhdr}
+\usepackage{fancyvrb}
+\pagestyle{fancy}
+\bibliographystyle{plain} % Style bibliographique
+\usepackage{array}		%package pour g?rer l'environnement tableau
+\usepackage[pdftex]{hyperref} % Pour les liens vers les chapitres
+\hypersetup{pdfstartview=FitV, colorlinks, linkcolor=black}
+
+%% pas sur que tous les packages et defines soit utilies
+\usepackage{listingsutf8}
+\usepackage{color}
+\usepackage{textcomp}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+%========= PAGE DE GARDE =============
+% Preambule
+\makeatletter
+\makeatother
+%=============== Corps ===============
+\begin{document}
+
+\rhead{\footnotesize\rightmark}
+\chead{}
+\lhead{}
+\lfoot{\footnotesize BE Commande Avancée - Régulation d'une turbine à gaz}
+\rfoot{\footnotesize\thepage~/~\pageref{pagefin}}
+\cfoot{}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\thispagestyle{empty}
+
+	\input{pageGarde}
+	
+	\tableofcontents
+	
+	\listoffigures 
+	
+	\input{introduction}
+	\clearpage{}
+		
+	\input{modelisation}
+	\clearpage{}
+	
+	\input{linearisation}
+	\clearpage{}
+	
+	\input{kalman}
+	\clearpage{}
+	
+	\input{retourdetat}
+	\clearpage{}
+	
+	\input{commanderobuste}
+	\clearpage{}
+	
+	\chapter*{Conclusion}
+	\addcontentsline{toc}{chapter}{Conclusion}
+	\input{conclusion}
+	\clearpage{}
+	
+	
+	%\input{biblio}
+	\clearpage{}
+	
+%\definecolor{listinggray}{gray}{0.9}
+%\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+%
+%\definecolor{colKeys}{rgb}{0,0,1} 
+%\definecolor{colIdentifier}{rgb}{0,0,0} 
+%\definecolor{colComments}{rgb}{0.1,0.5,0.1} 
+%\definecolor{colString}{rgb}{0.6,0.1,0.1} 
+%	
+%	%% Annexe code MATLAB
+%	\chapter*{Annexes}
+%	
+%\addcontentsline{toc}{chapter}{Annexes}
+%\lstset{inputencoding=utf8/latin1,
+%	tabsize=4,
+%	rulecolor=,
+%	language=MATLAB,
+%        basicstyle=\scriptsize,
+%        upquote=true,
+%        aboveskip={1.5\baselineskip},
+%        columns=fixed,
+%        showstringspaces=false,
+%        extendedchars=true,
+%        breaklines=true,
+%        prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+%        frame=single,
+%        showtabs=false,
+%        showspaces=false,
+%        showstringspaces=false,
+%        identifierstyle=\ttfamily,
+%  identifierstyle=\color{colIdentifier}, 
+%  keywordstyle=\color{colKeys},
+%  stringstyle=\color{colString}, 
+%  commentstyle=\color{colComments}} 
+%\renewcommand{\thesection}{\Alph{section}}
+%\setcounter{section}{0}
+%\section{script\_MATLAB.m}
+%\label{annexe}
+%\lstinputlisting{script_MATLAB.m}
+	
+\label{pagefin}
+
+\end{document}

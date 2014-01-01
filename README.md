@@ -1,20 +1,18 @@
-BEcommandeAA
-============
-
-
-BE Commande - Automatique avancée 
-
+#BE Commande - Automatique avancée 
+==================================
 
 Régulation d’une turbine à gaz
-—————————————————————————————————
 
+##Modélisation (Modèle de vérification)
+TODO
 
-Etapes : 
+##Linearisation (Simplification avec un modèle de synthèse)
+TODO
 
-1. Modélisation (Modèle de vérification)
+##Synthèse des contrôleurs (Satisfaction du Cahier des charges)
+0. Observateur de Kalman
+1. Commande par retour d’état
+2. Commande robuste (LMI)
 
-2. Linearisation (Simplification avec un modèle de synthèse)
-
-3. Synthèse d’un contrôleur (Satisfaction du Cahier des charges)
-
-4. Validation et améliorations
+##Validation et améliorations
+TODO

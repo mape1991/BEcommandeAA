@@ -1,0 +1,55 @@
+% !TEX encoding = IsoLatin
+% --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- %
+%\begin{itemize}
+%\item [-] \textbf{Création} : Demandée par un autre processus,  crée dans l'état prêt ou suspendu.
+%\item [-] \textbf{Destruction} : peut être fait par le processus lui-même, un autre processus, le noyau. La destruction provoque une libération des ressources associées et un évènement.
+%\item [-] \textbf{Blocage} : passage en mode bloqué en attente d'un évènement externe. Peut être demandé par le processus lui-même ou par le système.
+%\item [-] \textbf{Déblocage} : passage en mode prêt après le mode bloqué lorsque l'événement attendu se produit.
+%\item [-] \textbf{Activation} : passage en mode exécution d'un mode prêt.
+%\end{itemize}
+
+  
+%\begin{Verbatim}[frame=single,fontsize=\scriptsize]
+%\end{Verbatim}
+
+%\begin{figure}[h]
+%	\begin{center}
+%		\includegraphics[width=14.5cm,height=9cm]{.\figures\diag_etat_threads.png}
+%	\end{center}
+%	\caption{Diagramme des différents états d'un thread avec les primitives}
+%	\label{fig:diag_etat_threads}
+%\end{figure}
+
+%% Modele d'etat avec les matrices
+
+%\begin{displaymath}
+%\left\{ \begin{array}{l} \dot{x} \quad = \quad \left[ \begin{array}{cccc}
+%0 & 1 & 0 & 1\\
+%- \frac{K_s}{M_s} & - \frac{C_s}{M_s} & 0 & \frac{C_s}{M_s}\\
+%0 & 0 & 0 & 1\\
+%\frac{K_s}{M_u} & \frac{C_s}{M_u} & - \frac{K_t}{M_u} & - \frac{C_s}{M_u} - \frac{C_t}{M_u}
+%
+%\end{array}\right]  x \quad + \quad \left[ \begin{array}{cc}
+%0 & 1.1972\\
+%0 & - 0.0012\\
+%0 & 0\\
+%7.84 & - 4.05
+%\end{array} \right] u\\ \\
+%y \quad = \quad \left[ \begin{array}{cccc}
+%1 & 0 & 0 & 0\\
+%0 & \lambda & 0 & 0\\
+%0 & 0 & \lambda & 0\\
+%0 & 0 & 0 & \lambda\\
+%0 & - \lambda & \lambda & 0
+%\end{array} \right] x \quad + \quad \left[ \begin{array}{cc}
+%0 & 0\\
+%0 & 0\\
+%0 & 0\\
+%0 & 0\\
+%0 & 0
+%\end{array} \right] u \end{array}\right.
+%\end{displaymath}\\
+
+% --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- %
+\rhead{\footnotesize\rightmark}
+\chapter{Commande robuste}
