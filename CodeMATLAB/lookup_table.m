@@ -12,21 +12,41 @@ load donnees_turbine_v2007a ;
 %% Definition de fonctions de lecture
 f_cg = @(wf,ng)interp2(isong,isowf,tcg,ng,wf);                  % fonction inline cg(wf,ng)
 f_wfmax = @(p3) interp1(xwfp3,ywfp3,p3);                        % fonction inline wfmax(P3)
-
+f_ctl = @(wf,ng) interp2(isong, isowf, tctl100, ng, wf) ;       % fonction inline ctl(wf, ng)
+f_dctl_dntl = @(ng) interp1(isong,tdctldntl,ng);                % fonction inline dctl/dNntl(P3)
+f_p3 = @(wf,ng) interp2(isong, isowf, tp3, ng, wf) ;            % fonction inline ctl(wf, ng)
+f_t45 = @(wf,ng) interp2(isong, isowf, tt4, ng, wf) ;           % fonction inline ctl(wf, ng)
 
 %% Affichage des courbes 3D : 
 % close all ; 
-figure ; 
-[Xisong, Xisowf] = meshgrid(isong, isowf) ;
-mesh(Xisong, Xisowf, (tcg)) ; 
-xlabel('N_g'), ylabel('W_f'), zlabel('Cg(Ng,Wf)') ; 
-title('Evolution du Couple Résulant C_g en fonction de N_g et W_f') ; 
 
-figure ; 
-[Xisong, Xisowf] = meshgrid(isong, isowf) ;
-mesh(Xisong, Xisowf, abs(tcg)) ; 
-xlabel('N_g'), ylabel('W_f'), zlabel('abs(Cg(Ng,Wf))') ; 
-title('Evolution de la valeur absolue Couple Résulant C_g en fonction de N_g et W_f') ; 
+if (VERBOSE)
+    figure ; 
+    [Xisong, Xisowf] = meshgrid(isong, isowf) ;
+    mesh(Xisong, Xisowf, (tcg)) ; 
+    xlabel('N_g'), ylabel('W_f'), zlabel('Cg(Ng,Wf)') ; 
+    title('Evolution du Couple Résulant C_g en fonction de N_g et W_f') ; 
+
+    figure ; 
+    [Xisong, Xisowf] = meshgrid(isong, isowf) ;
+    mesh(Xisong, Xisowf, abs(tcg)) ; 
+    xlabel('N_g'), ylabel('W_f'), zlabel('abs(Cg(Ng,Wf))') ; 
+    title('Evolution de la valeur absolue Couple Résulant C_g en fonction de N_g et W_f') ; 
+
+    figure ; 
+    [Xisong, Xisowf] = meshgrid(isong, isowf) ;
+    mesh(Xisong, Xisowf, (tctl100)) ; 
+    xlabel('N_g'), ylabel('W_f'), zlabel('Cftl(Ng,Wf)') ; 
+    title('Evolution du Couple Résulant C_{tl} en fonction de N_g et W_f') ;
+
+    figure ; 
+    [Xisong, Xisowf] = meshgrid(isong, isowf) ;
+    mesh(Xisong, Xisowf, (tt4)) ; 
+    xlabel('N_g'), ylabel('W_f'), zlabel('T45(Ng,Wf)') ; 
+    title('Evolution de la température T_{45} en fonction de N_g et W_f') ;
+end 
+
+
 
  
 %% Exemples de lecture
