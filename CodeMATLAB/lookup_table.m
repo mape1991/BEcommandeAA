@@ -19,31 +19,14 @@ f_t45 = @(wf,ng) interp2(isong, isowf, tt4, ng, wf) ;           % fonction inlin
 
 %% Affichage des courbes 3D : 
 % close all ; 
-
+    [Xisong, Xisowf] = meshgrid(isong, isowf) ;
+    
 if (VERBOSE)
     figure ; 
-    [Xisong, Xisowf] = meshgrid(isong, isowf) ;
-    mesh(Xisong, Xisowf, (tcg)) ; 
-    xlabel('N_g'), ylabel('W_f'), zlabel('Cg(Ng,Wf)') ; 
-    title('Evolution du Couple Résulant C_g en fonction de N_g et W_f') ; 
-
-    figure ; 
-    [Xisong, Xisowf] = meshgrid(isong, isowf) ;
-    mesh(Xisong, Xisowf, abs(tcg)) ; 
-    xlabel('N_g'), ylabel('W_f'), zlabel('abs(Cg(Ng,Wf))') ; 
-    title('Evolution de la valeur absolue Couple Résulant C_g en fonction de N_g et W_f') ; 
-
-    figure ; 
-    [Xisong, Xisowf] = meshgrid(isong, isowf) ;
-    mesh(Xisong, Xisowf, (tctl100)) ; 
-    xlabel('N_g'), ylabel('W_f'), zlabel('Cftl(Ng,Wf)') ; 
-    title('Evolution du Couple Résulant C_{tl} en fonction de N_g et W_f') ;
-
-    figure ; 
-    [Xisong, Xisowf] = meshgrid(isong, isowf) ;
-    mesh(Xisong, Xisowf, (tt4)) ; 
-    xlabel('N_g'), ylabel('W_f'), zlabel('T45(Ng,Wf)') ; 
-    title('Evolution de la température T_{45} en fonction de N_g et W_f') ;
+    subplot(221), hold all, grid on, mesh(Xisong, Xisowf, (tcg)), xlabel('N_g'), ylabel('W_f'), zlabel('Cg(Ng,Wf)'), title('C_g=f(N_g, W_f)') ; 
+    subplot(222), hold all, grid on, mesh(Xisong, Xisowf, abs(tcg)), xlabel('N_g'), ylabel('W_f'), zlabel('abs(Cg(Ng,Wf))'), title('C_g=f(N_g, W_f)') ; 
+    subplot(223), hold all, grid on, mesh(Xisong, Xisowf, (tctl100)), xlabel('N_g'), ylabel('W_f'), zlabel('Cftl(Ng,Wf)'), title('C_{tl}=f(N_g, W_f)') ;
+    subplot(224), hold all, grid on, mesh(Xisong, Xisowf, (tt4)), xlabel('N_g'), ylabel('W_f'), zlabel('T45(Ng,Wf)'), title('T_{45}=(N_g, W_f)') ;
 end 
 
 

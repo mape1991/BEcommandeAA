@@ -59,16 +59,68 @@
 
 		\section{Présentation du problème et notations utilisées}
 		
-			En gros, recopier le pdf sujet.
+			Dans ce bureau d'étude, nous considérons un système composé d'une \textbf{turbine génératrice de gaz} et d'une charge (par exemple, le rotor d'un hélicoptère ou un alternateur pour générer de l'électricité). \\
+			
+			La turbine se compose de plusieurs étages dans lesquels des processus thermodynamiques interviennent pour apporter de l'énergie à l'air ambiant et ainsi enclencher la rotation d'un arbre. Le premier étage consiste en la compression de l'air ambiant (et donc de sa température). Une partie de ces gaz participe alors à la combustion du carburant du second étage. Les gaz arrivent alors dans le troisième étage avec une très forte énergie potentielle, sont détendus (diminution de pression) et actionnent alors la rotation d'un axe mécanique. Les gaz possédant encore une très forte énergie, ils sont détendus une deuxième fois dans la \textbf{turbine libre} qui transforme cette énergie en énergie mécanique fournie sur l'axe de sortie. \\
+			
+			Les variables du problème qui nous intéressent sont : 
+			
+			\begin{itemize}
+				\item $N_g$, la vitesse de rotation de l'arbre générateur de gaz.
+				\textbf{\item $N_{tl}$, la vitesse de rotation de la turbine libre (grandeur à réguler).}
+				\item $P_3$, la pression en sortie du compresseur.
+				\item $T_{45}$, la température inter-turbine (avant d'être détendu dans la turbine libre).
+			\textbf{	\item $W_f$, débit de carburant dans le second étage (grandeur de commande du problème). }\\ 
+			\end{itemize}
+			
+			Intuitivement, on comprend que plus le débit de carburant $W_f$ est grand et plus la vitesse de rotation $N_{tl}$ de l'arbre de sortie sera grande. \\ 
+			
+			L'objectif de ce bureau d'étude est donc d'assurer la \textbf{régulation de la vitesse de rotation en sortie $N_{tl}$}, en prenant en compte les charges mécaniques qui peuvent s'appliquer sur l'axe de sortie. 
+			
+			
+			
 			
 		\section{Modélisation du système}
 		
+		Dans cette partie, nous allons modéliser l'ensemble du système turbine, qui sera décomposé en sous-systèmes dont les fonctions de transfert sont connues.
+		
+			\subsection{Doseur de carburant}
 			
-			\begin{enumerate}
-				\item Doseur de carburant (2.1)
-				\item Arbre générateur (2.2), (2.3)
-				\item Turbine libre (2.4), (2.5) 
-			\end{enumerate}
+			Le doseur de carburant permet d'augmenter le débit de carburant $W_f$ circulant dans le second étage de la turbine. Le débit de consigne $W_f^*$ est envoyée à un moteur pas à pas actionnant le doseur. La dynamique du doseur a été identifiée par un système du premier ordre tel que  :
 			
-
+			\begin{align}
+						t_{dos} \frac{dW_f}{dt} = -W_f + W_f^* \\
+						T_{doseur}(s) = \frac{1}{1+t_{dos}s}
+			\end{align}
 			
+			Ce sous-système est donc la première fonction de transfert que la consigne $W_f^*$ rencontre. La vitesse de variation de la consigne étant limitée par la dynamique du moteur du doseur, un limiteur \textit{slew-rate} est imposé sur la consigne.
+			
+			\subsection{Arbre générateur}
+			
+			L'arbre générateur de gaz est le coeur du système. C'est lui qui fait le lien entre le débit de carburant $W_f$ et la forcé mécanique nécessaire à la rotation de l'arbre de sortie. Ainsi, en notant : 
+			
+			\begin{itemize}
+				\item $I_g$, l'inertie de l'arbre générateur.
+				\item $C_c$, le couple résistant entraînant le compresseur.
+				\item $C_{thp}$, le couple généré par la détente des gaz.
+				\item $C_g$, le couple résultant tel que $C_g = C_{thp} - C_c$.
+			\end{itemize}
+			
+			Nous avons, 
+			
+			\begin{equation}
+					Ig \dot{N_g}(t) = C_{thp}(t) - C_c(t) = C_g(t)
+			\end{equation}
+			
+			Plusieurs séries de données (fournies sous la forme de maillage - cf Fig. \ref{fig:maillages}) nous sont fournies pour calculer $C_g$, $P_3$, $T_{45}$ et $C_{tl}$ en fonction de $W_f$ et $N_g$. 
+			
+			\begin{figure} [H]
+			\centering 
+			\scalebox{0.6}{ \input{./figures/maillages.tikz} }
+			\caption{Maillages des données fournies en fonction de $W_f$ et $N_g$} 
+			\label{fig:maillages}
+			\end{figure}
+			
+			\textit{Remarque : La discontinuité de la courbe $C_g = f(N_g, W_f)$ est due à la valeur absolue ajoutée au moment du \texttt{plot} et qui sera nécessaire pour la suite de la modélisation. }
+						
+						\subsection{Turbine libre}
