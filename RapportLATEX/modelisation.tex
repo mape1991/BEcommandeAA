@@ -112,7 +112,7 @@
 					Ig \dot{N_g}(t) = C_{thp}(t) - C_c(t) = C_g(t)
 			\end{equation}
 			
-			Plusieurs séries de données (fournies sous la forme de maillage - cf Fig. \ref{fig:maillages}) nous sont fournies pour calculer $C_g$, $P_3$, $T_{45}$ et $C_{tl}$ en fonction de $W_f$ et $N_g$. 
+			Plusieurs séries de données (fournies sous la forme de maillage - cf Fig. \ref{fig:maillages}) nous sont fournies pour calculer $C_g$, $T_{45}$ et $C_{tl}$ en fonction de $W_f$ et $N_g$. 
 			
 			\begin{figure} [H]
 			\centering 
@@ -121,6 +121,58 @@
 			\label{fig:maillages}
 			\end{figure}
 			
-			\textit{Remarque : La discontinuité de la courbe $C_g = f(N_g, W_f)$ est due à la valeur absolue ajoutée au moment du \texttt{plot} et qui sera nécessaire pour la suite de la modélisation. }
+			Lorsque le couple résultant $C_g > 0$, l'arbre générateur est en phase d'accélération. De ce principe, on en déduit qu'en partant d'un état d'équilibre ($C_g = 0$) et en augmentant progressivement le débit de carburant, la vitesse de l'arbre $N_g$ va augmenter jusqu'à atteindre une nouvel état d'équilibre. L'équation dynamique de l'arbre générateur est donc non-linéaire : 
+			
+			\begin{equation}
+			I_g\dot{N_g}(t) = C_g(W_f, N_g)	
+			\end{equation}
+			
 						
-						\subsection{Turbine libre}
+	\subsection{Turbine libre}
+	
+		Les gaz issus du générateur sont détendus dans la turbine libre qui se chargera du transfert d'énergie mécanique vers l'arbre de sortie et donc la charge utile. Ainsi, en notant : 
+			
+			\begin{itemize}
+				\item $I_{tot}$, l'inertie totale de la turbine libre (somme de son inertie propre et de l'inertie de la charge).
+				\item $C_{tl}$, le couple moteur récupéré par la détente des gaz.
+				\item $C_{charge}$, le couple résistant dû à la charge. 
+			\end{itemize}
+			
+			Nous avons, 
+			
+			\begin{equation}
+			I_{tot}\dot{N_{tl}}(t) = C_{tl}(W_f, N_g, N_{tl}) - C_{charge}
+			\end{equation}
+			
+			En réalité, les données fournies ne nous donnent que $C_{tl}(W_f, N_g, N_{tl}^{nom}$ (c'est-à-dire le couple moteur autour du point de fonctionnement $N_{tl} = N_{tl}^{nom}$). L'équation dynamique de la turbine libre peut s'exprimer comme suit : 
+			
+			\begin{equation}
+			I_{tot}\dot{N_{tl}}(t) = C_{tl}(W_f, N_g, N_{tl}^{nom}) + \frac{dC_{tl}}{dN_{tl}}(N_g)\Delta N_{tl} - C_{charge}
+			\end{equation}
+			
+			Avec deux maillages, 2D et 3D décrits sur la figure \ref{fig:maillages2}. \\
+			
+			\begin{figure} [H]
+			\centering 
+			\scalebox{0.7}{ \input{./figures/maillages2.tikz} }
+			\caption{Maillages de $C_{tl}$ et $\frac{dC_{tl}}{dN_{tl}}$ en fonction de $W_f$ et $N_g$} 
+			\label{fig:maillages2}
+			\end{figure}
+			
+			\newpage
+			
+			\vspace{3cm}
+			Le schéma \texttt{Simulink} du système complet est alors (cf Fig. \ref{fig:sim_non_linaire_complet}) : 
+
+	\begin{figure}[h]
+		\begin{center}
+			\includegraphics[scale=0.8]{./figures/sim_non_lineaire_complet.png}
+		\end{center}
+		\caption{Schéma \texttt{Simulink} du système turbine complet (non-linéaire)}
+		\label{fig:sim_non_linaire_complet}
+	\end{figure}
+			
+			
+			
+			
+			

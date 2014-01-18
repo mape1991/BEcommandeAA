@@ -18,7 +18,7 @@ f_p3 = @(wf,ng) interp2(isong, isowf, tp3, ng, wf) ;            % fonction inlin
 f_t45 = @(wf,ng) interp2(isong, isowf, tt4, ng, wf) ;           % fonction inline ctl(wf, ng)
 
 %% Affichage des courbes 3D : 
-% close all ; 
+close all ; 
     [Xisong, Xisowf] = meshgrid(isong, isowf) ;
     
 if (VERBOSE)
@@ -26,7 +26,11 @@ if (VERBOSE)
     subplot(221), hold all, grid on, mesh(Xisong, Xisowf, (tcg)), xlabel('N_g'), ylabel('W_f'), zlabel('Cg(Ng,Wf)'), title('C_g=f(N_g, W_f)') ; 
     subplot(222), hold all, grid on, mesh(Xisong, Xisowf, abs(tcg)), xlabel('N_g'), ylabel('W_f'), zlabel('abs(Cg(Ng,Wf))'), title('C_g=f(N_g, W_f)') ; 
     subplot(223), hold all, grid on, mesh(Xisong, Xisowf, (tctl100)), xlabel('N_g'), ylabel('W_f'), zlabel('Cftl(Ng,Wf)'), title('C_{tl}=f(N_g, W_f)') ;
-    subplot(224), hold all, grid on, mesh(Xisong, Xisowf, (tt4)), xlabel('N_g'), ylabel('W_f'), zlabel('T45(Ng,Wf)'), title('T_{45}=(N_g, W_f') ;
+    subplot(224), hold all, grid on, mesh(Xisong, Xisowf, (tt4)), xlabel('N_g'), ylabel('W_f'), zlabel('T45(Ng,Wf)'), title('T_{45}=(N_g, W_f)') ;
+    
+    figure ; 
+    subplot(121), hold all, grid on, mesh(Xisong, Xisowf, (tctl100)), xlabel('N_g'), ylabel('W_f'), zlabel('C_{tl})'), title('C_{tl}=f(N_g, W_f)') ; 
+    subplot(122), hold all, grid on, plot(Xisong, (tdctldntl)), xlabel('N_g'), ylabel('\frac{dC_{tl}}{dN\{tl}}'), title('') ; 
 end 
 
 
