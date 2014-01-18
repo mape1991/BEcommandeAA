@@ -54,11 +54,98 @@
 \rhead{\footnotesize\rightmark}
 \chapter{Linéarisation du modèle}
 
-	\textcolor{red}{Maffre}
+	Le système global \og turbine à gaz \fg étant désormais modélisé à partir de tables de mesures (grandement non-linéaires) sur le système, il est désormais nécessaire de linéariser le système autour d'un point de fonctionnement. Le but est d'obtenir une fonction de transfert globale sur laquelle les techniques de contrôle connues pourront être appliquées. \\
+	
+	Le vecteur d'état $X$ que nous allons considérer est tel que : $X = [W_f \quad N_g \quad N_{tl}]^t$. Le système comporte une entrée de consigne $W_f$ (débit de carburant) et une entrée de perturbation $C_{charge}$ (couple charge sur l'arbre de sortie). 
 
-			\section{Point d'équilibre}
+			\section{Calcul du point d'équilibre}
 			
-			\section{Linéariation}
+			L'objectif de la linéarisation est de fixer un point de fonctionnement $X_0 = [W_f^0\quad N_g^0\quad N_{tl}^0]^t$, $U_0 = [W_f^0 \quad C_{charge}^0]^t$ et de n'étudier le système que pour de petites variations de l'état autour de ce point statique. L'objectif de la régulation étant de fixer $N_{tl}$ à $N_{tl}^{nom}$, on aura donc \textbf{$N_{tl}^0 = N_{tl}^{nom} = 22800 \:tr/min$}. Les autres variables d'état du système étant dépendantes l'une de l'autre, il est alors nécessaire de fixer l'une des deux pour calculer complètement le point d'équilibre. $N_g$ étant mesurée de manière fiable, c'est cette dernière que nous fixerons telle que \textbf{$N_{g}^0 = 28000 \:tr/min$}. \\
 			
-				Jacobienne, calcul de $B_lin$ et $C_lin$
+			D'après l'équation \ref{eq:cg}, nous avons : 
+			\begin{equation}
+				I_g\dot{N_g}(t) = C_g(W_f, N_g)	
+			\end{equation}
+			
+			Comme $N_g$ est considérée constante autour du point d'équilibre, alors $\dot{N_g}(t) = 0$. Pour déterminer $W_f^0$, il suffit alors de trouver l'abscisse $W_f$ pour laquelle le couple résultant $C_g$ s'annule, soit (cf Fig. \ref{fig:maillages}) : 
+			\begin{equation}
+				W_f^0 = arg ( min |C_g(W_f, N_g^0)| )
+			\end{equation}
+			
+			La fonction Matlab \texttt{fminsearch} retourne alors \textbf{$W_f^0 = 259.64\:\:L/h$}. \\
+			
+			Le couple de charge $C_{charge}^0$ est alors déterminé par la lecture du maillage de $C_{tl}(W_f^0, N_g^0)$ (cf Fig. \ref{fig:maillages}), soit donc \textbf{$C_{charge}^0 = 13.6025\:\:m.daN$}.
+			
+
+			\section{Linéarisation}
+			
+				Le point d'équilibre ($X_0$, $U_0$) étant désormais déterminé, les équations dynamiques régissant l'évolution des états au cours du temps doivent être calculées. Il suffit alors d'effectuer un changement de variable de type $X(t) = \Delta X(t) + X_0$. \\
+				
+				On obtient alors l'équation d'état dynamique du système sous la forme : 
+				
+				\begin{equation}
+				\begin{split}
+				\dot{\Delta X} & = J_f\vert_{X=X_0}.\Delta X \\
+							& + {\frac{\delta g}{\delta W_f^*}}\rvert_{W_f^{*0}}.\Delta W_f^* \\
+							& + \frac{\delta h}{\delta C_{charge}}\rvert_{C_{charge}^0}. \Delta C_{charge} \\
+							& + f(X_0) + g(W_f^{*0}) + h(C_{charge}^0)
+				\end{split}
+				\end{equation}
+				
+				Avec $J_f$, jacobienne de la matrice dynamique du système non-linéaire, telle que, d'après les équations \ref{eq:doseur}, \ref{eq:cg} et \ref{eq:ntl} : 
+				
+		\begin{equation}		
+J_f =
+ \begin{pmatrix}
+  -\frac{1}{t_{dos}} & 0 & 0 \\
+  \frac{1}{I_g} * \frac{\delta C_g(W_f,N_g)}{\delta W_f} & \frac{1}{I_g} * \frac{\delta C_g(W_f,N_g)}{\delta N_g} & 0 \\
+  \frac{1}{I{tot}} * \frac{\delta C_{tl}(W_f,N_g,N_{tl})}{\delta N_g} & \frac{1}{I_{tot}} * \frac{\delta C_{tl}(W_f,N_g,N_{tl})}{\delta N_g} & \frac{1}{I_{tot}} * \frac{\delta C_{tl}(W_f,N_g,N_{tl})}{\delta N_{tl}}
+ \end{pmatrix}
+= 
+ \begin{pmatrix}
+    -18.5185   &      0       &  0 \\
+   65.5871 &  -1.9835   &      0 \\
+   17.1650  &  0.8011  & -0.5289
+ \end{pmatrix}
+	\end{equation}
+	
+	Par conséquent, la matrice dynamique $A_{lin}$ du système linéarisé est telle que : $A_{lin} = J_f$. En considérant maintenant le vecteur d'entrée U tel que $U =  [W_f \quad C_{charge}]^t$, alors la matrice d'entrée $B_lin$ du système linéarisé est telle que : 
+	
+	\begin{equation}
+	B_{lin} = 
+	 \begin{pmatrix}
+    -\frac{1}{t_{dos}}   &      0  \\    
+   0 &  0   \\
+   0  &  -\frac{1}{I_{tot}}  
+	\end{pmatrix}
+	= 
+		 \begin{pmatrix}
+ 18.5185    &     0 \\
+         0    &     0 \\
+         0 & -381.2529 
+	\end{pmatrix}	
+	\end{equation}
+	
+	En considérant maintenant le vecteur de sortie $Y = [N_g \quad P_3 \quad T_{45} \quad N_{tl}]^t$ du système (toujours autour du point d'équilibre), la matrice de sortie $C_{lin}$ du système est alors définie comme : 
+	
+		\begin{equation}
+	C_{lin} = 
+	 \begin{pmatrix}
+   0 & 1  & 0      \\
+   \frac{\delta P_3(W_f, N_g)}{\delta W_f} &  \frac{\delta P_3(W_f, N_g)}{\delta N_g} & 0   \\
+   \frac{\delta T_{45}(W_f, N_g)}{\delta W_f} &  \frac{\delta T_{45}(W_f, N_g)}{\delta N_g} & 0   \\
+	 0 & 0 & 1
+	\end{pmatrix}
+	= 
+		 \begin{pmatrix}
+         0   & 1.0000     &    0 \\
+    0.0020  &  0.0002    &     0 \\
+    1.6012  & -0.0228    &     0 \\
+         0  &       0   & 1.0000
+	\end{pmatrix}	
+	\end{equation}
+	
+	
+
+				
 				

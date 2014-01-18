@@ -54,9 +54,6 @@
 \rhead{\footnotesize\rightmark}
 \chapter{Modélisation du système}
 
-\textcolor{red}{Maffre}
-
-
 		\section{Présentation du problème et notations utilisées}
 		
 			Dans ce bureau d'étude, nous considérons un système composé d'une \textbf{turbine génératrice de gaz} et d'une charge (par exemple, le rotor d'un hélicoptère ou un alternateur pour générer de l'électricité). \\
@@ -88,7 +85,7 @@
 			
 			Le doseur de carburant permet d'augmenter le débit de carburant $W_f$ circulant dans le second étage de la turbine. Le débit de consigne $W_f^*$ est envoyée à un moteur pas à pas actionnant le doseur. La dynamique du doseur a été identifiée par un système du premier ordre tel que  :
 			
-			\begin{align}
+			\begin{align} \label{eq:doseur}
 						t_{dos} \frac{dW_f}{dt} = -W_f + W_f^* \\
 						T_{doseur}(s) = \frac{1}{1+t_{dos}s}
 			\end{align}
@@ -123,7 +120,7 @@
 			
 			Lorsque le couple résultant $C_g > 0$, l'arbre générateur est en phase d'accélération. De ce principe, on en déduit qu'en partant d'un état d'équilibre ($C_g = 0$) et en augmentant progressivement le débit de carburant, la vitesse de l'arbre $N_g$ va augmenter jusqu'à atteindre une nouvel état d'équilibre. L'équation dynamique de l'arbre générateur est donc non-linéaire : 
 			
-			\begin{equation}
+			\begin{equation}  \label{eq:cg}
 			I_g\dot{N_g}(t) = C_g(W_f, N_g)	
 			\end{equation}
 			
@@ -140,7 +137,7 @@
 			
 			Nous avons, 
 			
-			\begin{equation}
+			\begin{equation} \label{eq:ntl}
 			I_{tot}\dot{N_{tl}}(t) = C_{tl}(W_f, N_g, N_{tl}) - C_{charge}
 			\end{equation}
 			
