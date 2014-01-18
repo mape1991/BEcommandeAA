@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.179"
+    ComputedModelVersion    "1.174"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -25,9 +25,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Julien"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sun Jan 19 00:51:24 2014"
-  RTWModifiedTimeStamp	  311993455
-  ModelVersionFormat	  "1.%<AutoIncrement:179>"
+  LastModifiedDate	  "Sun Jan 19 00:27:56 2014"
+  RTWModifiedTimeStamp	  311992284
+  ModelVersionFormat	  "1.%<AutoIncrement:174>"
   ConfigurationManager	  "None"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -1045,6 +1045,70 @@ Model {
       DisplayOption	      "bar"
     }
     Block {
+      BlockType		      Gain
+      Name		      "Gain"
+      SID		      199
+      Position		      [955, 330, 985, 360]
+      Gain		      "1/1000"
+      ParameterDataTypeMode   "Inherit via internal rule"
+      ParameterDataType	      "fixdt(1, 16)"
+      ParameterScaling	      "2^0"
+      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+      OutDataTypeMode	      "Inherit via internal rule"
+      OutDataType	      "fixdt(1, 16)"
+      OutScaling	      "2^0"
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Gain
+      Name		      "Gain1"
+      SID		      200
+      Position		      [970, 505, 1000, 535]
+      Gain		      "1/1000"
+      ParameterDataTypeMode   "Inherit via internal rule"
+      ParameterDataType	      "fixdt(1, 16)"
+      ParameterScaling	      "2^0"
+      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+      OutDataTypeMode	      "Inherit via internal rule"
+      OutDataType	      "fixdt(1, 16)"
+      OutScaling	      "2^0"
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Gain
+      Name		      "Gain2"
+      SID		      201
+      Position		      [1015, 40, 1045, 70]
+      Gain		      "1/1000"
+      ParameterDataTypeMode   "Inherit via internal rule"
+      ParameterDataType	      "fixdt(1, 16)"
+      ParameterScaling	      "2^0"
+      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+      OutDataTypeMode	      "Inherit via internal rule"
+      OutDataType	      "fixdt(1, 16)"
+      OutScaling	      "2^0"
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Gain
+      Name		      "Gain3"
+      SID		      202
+      Position		      [1015, 230, 1045, 260]
+      Gain		      "1/1000"
+      ParameterDataTypeMode   "Inherit via internal rule"
+      ParameterDataType	      "fixdt(1, 16)"
+      ParameterScaling	      "2^0"
+      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+      OutDataTypeMode	      "Inherit via internal rule"
+      OutDataType	      "fixdt(1, 16)"
+      OutScaling	      "2^0"
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
       BlockType		      Mux
       Name		      "Mux"
       SID		      150
@@ -1053,98 +1117,6 @@ Model {
       ShowName		      off
       Inputs		      "5"
       DisplayOption	      "bar"
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "Noise Ng"
-      SID		      178
-      Ports		      [0, 1]
-      Position		      [440, 255, 470, 285]
-      BackgroundColor	      "gray"
-      LibraryVersion	      "1.762"
-      SourceBlock	      "simulink/Sources/Band-Limited\nWhite Noise"
-      SourceType	      "Band-Limited White Noise."
-      ShowPortLabels	      "FromPortIcon"
-      SystemSampleTime	      "-1"
-      FunctionWithSeparateData off
-      RTWMemSecFuncInitTerm   "Inherit from model"
-      RTWMemSecFuncExecute    "Inherit from model"
-      RTWMemSecDataConstants  "Inherit from model"
-      RTWMemSecDataInternal   "Inherit from model"
-      RTWMemSecDataParameters "Inherit from model"
-      Cov		      "[Precision_Ng* 40]"
-      Ts		      "0.001"
-      seed		      "[23341]"
-      VectorParams1D	      on
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "Noise Ntl"
-      SID		      185
-      Ports		      [0, 1]
-      Position		      [440, 530, 470, 560]
-      BackgroundColor	      "gray"
-      LibraryVersion	      "1.762"
-      SourceBlock	      "simulink/Sources/Band-Limited\nWhite Noise"
-      SourceType	      "Band-Limited White Noise."
-      ShowPortLabels	      "FromPortIcon"
-      SystemSampleTime	      "-1"
-      FunctionWithSeparateData off
-      RTWMemSecFuncInitTerm   "Inherit from model"
-      RTWMemSecFuncExecute    "Inherit from model"
-      RTWMemSecDataConstants  "Inherit from model"
-      RTWMemSecDataInternal   "Inherit from model"
-      RTWMemSecDataParameters "Inherit from model"
-      Cov		      "[Precision_Ntl * 80]"
-      Ts		      "0.001"
-      seed		      "[23341]"
-      VectorParams1D	      on
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "Noise P3"
-      SID		      179
-      Ports		      [0, 1]
-      Position		      [440, 310, 470, 340]
-      BackgroundColor	      "gray"
-      LibraryVersion	      "1.762"
-      SourceBlock	      "simulink/Sources/Band-Limited\nWhite Noise"
-      SourceType	      "Band-Limited White Noise."
-      ShowPortLabels	      "FromPortIcon"
-      SystemSampleTime	      "-1"
-      FunctionWithSeparateData off
-      RTWMemSecFuncInitTerm   "Inherit from model"
-      RTWMemSecFuncExecute    "Inherit from model"
-      RTWMemSecDataConstants  "Inherit from model"
-      RTWMemSecDataInternal   "Inherit from model"
-      RTWMemSecDataParameters "Inherit from model"
-      Cov		      "[Precision_P3 * 0.01]"
-      Ts		      "0.001"
-      seed		      "[23341]"
-      VectorParams1D	      on
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "Noise T45"
-      SID		      180
-      Ports		      [0, 1]
-      Position		      [440, 475, 470, 505]
-      BackgroundColor	      "gray"
-      LibraryVersion	      "1.762"
-      SourceBlock	      "simulink/Sources/Band-Limited\nWhite Noise"
-      SourceType	      "Band-Limited White Noise."
-      ShowPortLabels	      "FromPortIcon"
-      SystemSampleTime	      "-1"
-      FunctionWithSeparateData off
-      RTWMemSecFuncInitTerm   "Inherit from model"
-      RTWMemSecFuncExecute    "Inherit from model"
-      RTWMemSecDataConstants  "Inherit from model"
-      RTWMemSecDataInternal   "Inherit from model"
-      RTWMemSecDataParameters "Inherit from model"
-      Cov		      "[Precision_T45* 40]"
-      Ts		      "0.001"
-      seed		      "[23341]"
-      VectorParams1D	      on
     }
     Block {
       BlockType		      Step
@@ -2344,6 +2316,13 @@ Model {
     }
     Line {
       SrcBlock		      "Système Initial"
+      SrcPort		      1
+      Points		      [300, 0; 0, -60]
+      DstBlock		      "Gain2"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Système Initial"
       SrcPort		      2
       DstBlock		      "To Workspace1"
       DstPort		      1
@@ -2356,9 +2335,22 @@ Model {
       DstPort		      1
     }
     Line {
+      SrcBlock		      "Système Initial"
+      SrcPort		      4
+      Points		      [290, 0; 0, 85]
+      DstBlock		      "Gain3"
+      DstPort		      1
+    }
+    Line {
       SrcBlock		      "Sum2"
       SrcPort		      1
       DstBlock		      "To Workspace5"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Sum4"
+      SrcPort		      1
+      DstBlock		      "Gain1"
       DstPort		      1
     }
     Line {
@@ -2563,54 +2555,32 @@ Model {
     Line {
       SrcBlock		      "Sum1"
       SrcPort		      1
+      DstBlock		      "Gain"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Gain"
+      SrcPort		      1
       DstBlock		      "To Workspace4"
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Système Initial"
-      SrcPort		      4
-      Points		      [290, 0; 0, 85]
-      DstBlock		      "To Workspace3"
-      DstPort		      1
-    }
-    Line {
-      SrcBlock		      "Système Initial"
-      SrcPort		      1
-      Points		      [240, 0; 0, -60]
-      DstBlock		      "To Workspace"
-      DstPort		      1
-    }
-    Line {
-      SrcBlock		      "Sum4"
+      SrcBlock		      "Gain1"
       SrcPort		      1
       DstBlock		      "To Workspace7"
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Noise Ng"
+      SrcBlock		      "Gain2"
       SrcPort		      1
-      Points		      [60, 0]
-      DstBlock		      "Sum3"
+      DstBlock		      "To Workspace"
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Noise P3"
+      SrcBlock		      "Gain3"
       SrcPort		      1
-      Points		      [30, 0; 0, 55]
-      DstBlock		      "Sum5"
+      DstBlock		      "To Workspace3"
       DstPort		      1
-    }
-    Line {
-      SrcBlock		      "Noise T45"
-      SrcPort		      1
-      DstBlock		      "Sum10"
-      DstPort		      2
-    }
-    Line {
-      SrcBlock		      "Noise Ntl"
-      SrcPort		      1
-      DstBlock		      "Sum6"
-      DstPort		      2
     }
     Annotation {
       Name		      "D_Wf calculé artificiellement pour vérifier \npar rapport à l'état reconstitué"

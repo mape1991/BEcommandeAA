@@ -57,14 +57,13 @@ K_kalman = ss(A_lin-L_lin*C_lin, [B_lin(:,1) L_lin], eye(3), 0) ;
 
 %% Simulations (Système Linéaire VS Système complet) : 
 close all ; 
-t_sim = 20, sim('sim_system_kalman', t_sim) ; 
+t_sim = 10, sim('sim_system_kalman', t_sim) ; 
 
 % Système Linéaire en rouge et Système Initial en bleu
 figure('name', 'Système initial VS système linéarisé', 'units','normalized','outerposition',[0 0 1 1])
-subplot(221), hold on, grid on, plot(Ng, 'b'), plot(D_Ng, 'r'), title('Evolution de Ng'), legend('Non-linéaire (initial)','Linéaire') , 
-subplot(222), hold on, grid on, plot(P3, 'b'), plot(D_P3, 'r'), title('Evolution de P3') ;
-subplot(223), hold on, grid on, plot(T45, 'b'), plot(D_T45, 'r'), title('Evolution de T45') ;
-subplot(224), hold on, grid on, plot(Ntl, 'b'), plot(D_Ntl, 'r'), title('Evolution de Ntl') ; 
+subplot(221), hold on, grid on, plot(Ng.time, Ng.signals.values, 'b'), plot(D_Ng.time, D_Ng.signals.values, 'r'), xlabel('Temps [s]'), ylabel('N_g [1000tr/min]'), title('Evolution de Ng'), legend('Non-linéaire (initial)','Linéaire') , 
+subplot(222), hold on, grid on, plot(Ntl.time, Ntl.signals.values, 'b'), plot(D_Ntl.time, D_Ntl.signals.values, 'r'), xlabel('Temps [s]'), ylabel('N_{tl} [1000tr/min]'), title('Evolution de Ntl') ; 
+subplot(2,2,[3:4]), hold on, grid on, plot(Wf.time, Wf.signals.values, 'b'), plot(D_Wf.time, D_Wf.signals.values, 'r'),  xlabel('Temps [s]'), ylabel('W_f [L/h]'), title('Evolution de Wf') ;
 
 
 %% Simulations (Système Linéaire VS Kalman) :
@@ -72,9 +71,9 @@ t_sim = 20 ; sim('sim_system_kalman', t_sim) ;
  
 % Système Linéaire en rouge et Kalman en vert
 figure('name', 'Système linéarisé avec un filtre de Kalman', 'units','normalized','outerposition',[0 0 1 1])
-subplot(221), hold on, grid on, plot(D_Wf, 'r'), plot(K_Wf, 'g', 'linewidth', 2), title('Evolutions de Wf'), legend('Linéaire', 'Kalman') ,
-subplot(222), hold on, grid on, plot(D_Ng, 'r'), plot(K_Ng, 'g', 'linewidth', 2), title('Evolution de Ng') ;
-subplot(223), hold on, grid on, plot(D_Ntl, 'r'), plot(K_Ntl, 'g', 'linewidth', 2), title('Evolution de Ntl') ; 
+subplot(221), hold on, grid on, plot(D_Wf.time, D_Wf.signals.values, 'r'), plot(K_Wf.time, K_Wf.signals.values, 'g', 'linewidth', 2), title('Evolutions de Wf'), legend('Linéaire', 'Kalman') ,
+subplot(222), hold on, grid on, plot(D_Ng.time, D_Ng.signals.values, 'r'), plot(K_Ng.time, K_Ng.signals.values, 'g', 'linewidth', 2), title('Evolution de Ng') ;
+subplot(223), hold on, grid on, plot(D_Ntl.time, D_Ntl.signals.values, 'r'), plot(K_Ntl.time, K_Ntl.signals.values, 'g', 'linewidth', 2), title('Evolution de Ntl') ; 
 
 % Remarque : Forcément, Wf est exactement le même puisque Wf n'était pas
 % bruité
