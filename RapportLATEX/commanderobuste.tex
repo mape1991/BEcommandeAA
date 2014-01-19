@@ -54,8 +54,6 @@
 \rhead{\footnotesize\rightmark}
 \chapter{Commande robuste}
 
-\textcolor{red}{Maffre}
-
 	Un retour d'état $K$ stabilisant le système et rejetant, au mieux, les perturbations (couple résistant $C_{charge}$) ayant été calculé pour le point de fonctionnement ($X_0$, $U_0$) considéré, il est maintenant nécessaire de vérifier la stabilité du système bouclé pour des points de fonctionnement différents. En effet, le point d'équilibre peut être en réalité légèrement différent ce celui calculé dans le chapitre 2. \\
 	
 	Nous utiliserons pour cela des méthodes de calcul \textit{LMI} (Linear Matrix Inequalities) (toolbox \texttt{lmi} de Matlab).
@@ -67,24 +65,32 @@
 		
 		La théorie des \textit{LMI} que l'existence d'une matrice symétrique $P$ satisfaisant la théorie de Lyapunov est une condition nécessaire et suffisante de stabilité pouvant être décrite par l'équation : 
 		
-		\begin{align}
+						\begin{equation}
+				\begin{split}
 			PA^T + AP & < 0 \\
 			P & > 0 
-		\end{align}
+							\end{split}
+						\end{equation}
+
 		
 		La matrice dynamique $A$ d'un système bouclé avec un gain de retour d'état $u = -Kx$ étant égale à $A_{bouclé} = (A - BK)$, on aura alors la \textit{LMI} suivante comme condition nécessaire et suffisante de stabilité : 
 		
-		\begin{align}
+		
+						\begin{equation}
+				\begin{split} \label{eq:lmi_base}
 			P(A-BK)^T + (A+BK)P & < 0 \\
 			P & > 0 
-		\end{align}
+					\end{split}
+						\end{equation}
 		
 		Cette \textit{LMI} étant non-linéaire, il est nécessaire d'effectuer le changement de variable $K = LP^{-1}$ pour assurer sa linéarité.
 		
-		\begin{align}
+		\begin{equation}
+				\begin{split}
 			PA^T + AP + L^TB + BL & < 0  \\
 			P & > 0 
-		\end{align}
+					\end{split}
+						\end{equation}
 		
 		La matrice $K_{lmi}$ retournée par le script Matlab est alors telle que : 
 		
@@ -101,15 +107,44 @@
 			\item Un demi-plan dont la partie réelle est supérieure à une valeur négative $x_1$ (telle que $x_1 < x_0$) donnée, pour \textbf{rester dans la bande passante} du système.
 			\item Un secteur conique dont la pointe est située à l'origine du plan complexe, pour fixer l'amortissement et donc \textbf{limiter le dépassement}.
 		\end{itemize}
-		
-		
-		
-		
-		
-		
-		
-		
-	
-	
+			
 	
 	\section{Vérification de la stabilité du système}
+	
+	La stabilité du système étant prouvée autour du point d'équilibre ($X_0$, $U_0$) (avec les performances souhaitées), il est maintenant nécessaire de vérifier au moins la stabilité du système bouclé autour d'autres points de fonctionnement (les performances pouvant être dégradées). \\
+	
+	Nous allons maintenant utiliser une des propriétés des \textit{LMI} qui spécifie que rajouter d'une équation à la \textit{LMI} correspond à l'ajout d'une contrainte pour la solution finale. \\
+	
+	Nous allons donc conserver le gain stabilisant $K$ calculé dans le chapitre 4 et changer le point d'équilibre (c'est-à-dire la matrice $A_{lin}$). L'objectif est de vérifier si la \textit{LMI} précédente peut-être résolue pour tous les points d'équilibre. La nouvelle \textit{LMI} s'écrit alors (avec $n$, le nombre de points d'équilibre connus) : 
+	
+		\begin{equation}
+				\begin{split}
+			P(A_1-BK)^T + (A_1+BK)P & < 0 \\
+			P(A_2-BK)^T + (A_2+BK)P & < 0 \\
+			\cdots \\
+			P(A_n-BK)^T + (A_n+BK)P & < 0 \\
+			P & > 0 
+				\end{split}
+		\end{equation}
+		
+		Le calcul sous Matlab (en utilisant la toolbox \texttt{lmi}) consiste en l'ajout successif des contraintes à la \textit{LMI} de base (eq. \ref{eq:lmi_base}). Le solveur indique alors que la \textit{LMI} peut-être résolue (en 3 itérations) et fournie une matrice $P$ (de dimension (4,4)) vérifiant le système d'équations précédent. \\
+		
+		\textit{Remarque : Bien entendu, vérifier l'appartenance des pôles des systèmes bouclés considérés au demi-plan complexe gauche aurait suffit pour s'assurer de la bonne stabilisation du système. La technique présentée ici a cependant l'avantage d'être générique et moins fastidieuse.}
+		
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

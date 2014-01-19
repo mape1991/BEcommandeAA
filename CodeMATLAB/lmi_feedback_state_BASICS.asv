@@ -7,34 +7,35 @@
 %                                               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-clc ; 
+% clc ; 
 
+%% Calcul d'un gain de retour d'état stabilisant : 
 % -------- Data -------- %
-A = A_lin_a - B_lin_a(:,1)*K_feedback_2_aug ;
-B = B_lin_a ;
+A = A_lin_a ;
+B = B_lin_a(:,1) ;
+
+n = size(A,1) ;
+ncon = size(B,2) ;
 
 % -------- LMI -------- %
 setlmis([]) ;
 
-P = lmivar(1, [2,1]) ;
-L = lmivar(2, [1,2]) ;
+P = lmivar(1, [n 1]) ;
+L = lmivar(2, [ncon n]) ;
 
-%1st : 
+% 1st : 
 lmiterm([1,1,1,P],-1,1) ;
 
-%2nd : 
+% 2nd : 
+disp('couc1') 
 lmiterm([2,1,1,P],1,A','s') ; 
 lmiterm([2,1,1,L],B,1,'s') ; 
-
 lmisys = getlmis ; 
-
 [tmin,xfeas] = feasp(lmisys) ; 
-
 L1 = dec2mat(lmisys,xfeas,L) ; 
 P1 = dec2mat(lmisys,xfeas,P) ; 
 
 K = L1/P1 ; 
-
 A_stable = A+B*K ;
 
 disp('--------------')
@@ -46,6 +47,46 @@ eig(A_stable)
 disp('for K = ')
 disp(K)
 disp('--------------')
+
+%% Vérification de la stabilité aux points d'équilibre : 
+% Remarque : Charger d'abord "donnees_et_modeles_lineaires.mat".
+
+% -------- Data -------- %
+A6 = cell2mat(Ac(6)) ;
+A7 = cell2mat(Ac(7)) ;
+A8 = cell2mat(Ac(8)) ;
+A9 = cell2mat(Ac(9)) ;
+A10 = cell2mat(Ac(10)) ;
+A11 = cell2mat(Ac(11)) ;
+A12 = cell2mat(Ac(12)) ;
+A13 = cell2mat(Ac(13)) ;
+
+B = B_lin_a(:,1) ;
+
+n = size(A6,1) ;
+ncon = size(B,2) ;
+
+% -------- LMI -------- %
+setlmis([]) ;
+
+P = lmivar(1, [n 1]) ;
+L = lmivar(2, [ncon n]) ;
+
+% 1st : 
+lmiterm([1,1,1,P],-1,1) ;
+
+% 2nd : 
+disp('couc1') 
+lmiterm([2,1,1,P],1,A','s') ; 
+lmiterm([2,1,1,L],B,1,'s') ; 
+lmisys = getlmis ; 
+[tmin,xfeas] = feasp(lmisys) ; 
+L1 = dec2mat(lmisys,xfeas,L) ; 
+P1 = dec2mat(lmisys,xfeas,P) ; 
+
+K = L1/P1 ; 
+A_stable = A+B*K ;
+
 
 
 

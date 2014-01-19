@@ -1,11 +1,11 @@
 % !TEX encoding = IsoLatin
 \paragraph{OBJECTIF}
-\paragraph{}Durant ce bureau d'étude nous avons mis en application différentes notions vues en cours d'automatique avancée afin de commander une turbine à gaz. L'objectif est de suivre une démarche industrielle de conception d'un système de commande. 
+\paragraph{}Durant ce bureau d'étude nous avons mis en application différentes notions vues en cours d'Automatique Avancée afin de designer la commande d'une turbine à gaz. Le problème a consisté à réduire l'influence du couple de charge (typiquement, un alternateur) sur la vitesse de rotation de l'arbre en sortie (commande robuste). L'objectif a été de suivre une démarche industrielle, à partir de la modélisation jusqu'à la conception de la loi de commande.
 
 \paragraph{BILAN}
-\paragraph{}Tout d'abord nous avons modélisé la turbine à l'aide des équations fondamentales de la mécanique. 
+\paragraph{}Nous avons tout d'abord modélisé la turbine à l'aide des équations fondamentales de la mécanique (en rotation). Le modèle a été ensuite linéarisé autour du point de fonctionnement nominal. Des techniques de commande par placement de pôles ont été mises en place pour maintenir la vitesse de rotation $N_{tl}$ constante quelque soit la charge en entrée du système. Des méthodes d'automatique plus avancées (nécessitant l'usage de \textit{LMI}) ont été ensuite testées pour vérifier la stabilité du système pour tous les points de fonctionnement considérés.
 
 
 \paragraph{FUTUR}
-\paragraph{}Ce bureau d'étude nous a donc permis de mettre en place sur un cas concret deux commandes fondamentales de l'automatique, de nous rendre compte des difficultés qu'elles impliquent (notamment au niveau du calcul des paramètres) mais aussi de leur efficacité et de leur grande utilité.
-\paragraph{}Le sujet choisi pour mettre en oeuvre ce bureau d'étude est très parlant et a le mérite d'être complet.
+\paragraph{}Ce bureau d'étude nous a donc permis de mettre en place sur un cas concret des stratégies de commande robuste, de nous rendre compte des difficultés qu'elles impliquent (notamment au niveau du calcul des paramètres) mais aussi de leur efficacité et de leur grande utilité.
+\paragraph{}Le sujet choisi pour mettre en oeuvre ce bureau d'étude est très parlant et a le mérite d'être complet. Nous regrettons cependant le trop grand nombre de séances passées sur la modélisation du système, au détriment de la conception d'un contrôleur $H_\infty$, qui aurait été très intéressant et pertinent pour le problème posé.
