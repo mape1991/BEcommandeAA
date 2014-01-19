@@ -708,7 +708,7 @@ Model {
   }
   System {
     Name		    "sim_system_lin_retour_etat_aug"
-    Location		    [0, 51, 1272, 760]
+    Location		    [2, 75, 1347, 717]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200

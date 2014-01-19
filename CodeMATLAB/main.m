@@ -200,6 +200,7 @@ poles_goal_aug = [ -E_goal*Wn_goal + i*Wn_goal*sqrt(1-E_goal^2) ;
 
 % Fonction place pour déterminer le retour d'état : 
 K_feedback_2_aug = place(A_lin_a, B_lin_a(:,1), poles_goal_aug) ; 
+K_feedback_2_aug = K ; 
 
 % -- DEBUT SATURATION -- %
 dWf_max = 100 ;                 % [L/h/s] 

@@ -86,6 +86,22 @@
 			P & > 0 
 		\end{align}
 		
+		La matrice $K_{lmi}$ retournée par le script Matlab est alors telle que : 
+		
+		\begin{equation}
+			K_{lmi} = [1.0042   -4.0059   -2.3667   -1.9401]
+		\end{equation}
+		
+		Et permet d'assurer la stabilité du système en plaçant les pôles dans le demi-plan gauche du plan complexe. Cependant, comme aucune autre spécification sur le placement des pôles n'est donnée, le solveur \textit{LMI} se contente de trouver un seul gain qui stabilise le système. Autrement dit, la dernière itération correspond à l'itération à laquelle le solveur a trouvé pour la première fois un gain stabilisant. \\ 
+		
+		L'objectif est maintenant de spécifier des régions \textit{LMI} (à l'aide par exemple de la commande \texttt{lmireg})pour que les pôles en boucle fermée appartiennent à l'intersection de ces régions. Ces régions correspondent à : 
+		
+		\begin{itemize}
+			\item Un demi-plan dont la partie réelle est inférieure à une valeur négative $x_0$ donnée, spécifiant alors le \textbf{temps de réponse du système}.
+			\item Un demi-plan dont la partie réelle est supérieure à une valeur négative $x_1$ (telle que $x_1 < x_0$) donnée, pour \textbf{rester dans la bande passante} du système.
+			\item Un secteur conique dont la pointe est située à l'origine du plan complexe, pour fixer l'amortissement et donc \textbf{limiter le dépassement}.
+		\end{itemize}
+		
 		
 		
 		

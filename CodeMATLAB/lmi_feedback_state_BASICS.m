@@ -7,7 +7,7 @@
 %                                               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-clc ; 
+% clc ; 
 
 % -------- Data -------- %
 A = A_lin_a ;
@@ -29,6 +29,7 @@ lmiterm([1,1,1,P],-1,1) ;
 disp('couc1') 
 lmiterm([2,1,1,P],1,A','s') ; 
 lmiterm([2,1,1,L],B,1,'s') ; 
+region = lmireg ; 
 
 lmisys = getlmis ; 
 
