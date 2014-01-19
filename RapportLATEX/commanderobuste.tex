@@ -56,8 +56,44 @@
 
 \textcolor{red}{Maffre}
 
+	Un retour d'état $K$ stabilisant le système et rejetant, au mieux, les perturbations (couple résistant $C_{charge}$) ayant été calculé pour le point de fonctionnement ($X_0$, $U_0$) considéré, il est maintenant nécessaire de vérifier la stabilité du système bouclé pour des points de fonctionnement différents. En effet, le point d'équilibre peut être en réalité légèrement différent ce celui calculé dans le chapitre 2. \\
+	
+	Nous utiliserons pour cela des méthodes de calcul \textit{LMI} (Linear Matrix Inequalities) (toolbox \texttt{lmi} de Matlab).
 
+
+	\section{Calcul du retour d'état $K_{lmi}$ stabilisant}
+	
+		Nous allons tout d'abord recalculer un gain de retour d'état stabilisant le système (noté $K_{lmi}$). Cet exercice est bien entendu redondant par rapport à la partie précédente mais il permet d'introduire les \textit{LMI}. \\
+		
+		La théorie des \textit{LMI} que l'existence d'une matrice symétrique $P$ satisfaisant la théorie de Lyapunov est une condition nécessaire et suffisante de stabilité pouvant être décrite par l'équation : 
+		
+		\begin{align}
+			PA^T + AP & < 0 \\
+			P & > 0 
+		\end{align}
+		
+		La matrice dynamique $A$ d'un système bouclé avec un gain de retour d'état $u = -Kx$ étant égale à $A_{bouclé} = (A - BK)$, on aura alors la \textit{LMI} suivante comme condition nécessaire et suffisante de stabilité : 
+		
+		\begin{align}
+			P(A-BK)^T + (A+BK)P & < 0 \\
+			P & > 0 
+		\end{align}
+		
+		Cette \textit{LMI} étant non-linéaire, il est nécessaire d'effectuer le changement de variable $K = LP^{-1}$ pour assurer sa linéarité.
+		
+		\begin{align}
+			PA^T + AP + L^TB + BL & < 0  \\
+			P & > 0 
+		\end{align}
+		
+		
+		
+		
+		
+		
+		
+		
+	
+	
+	
 	\section{Vérification de la stabilité du système}
-	
-	
-	\section{Controleur $H_\infty$}

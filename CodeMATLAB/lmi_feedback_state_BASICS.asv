@@ -10,23 +10,19 @@
 clc ; 
 
 % -------- Data -------- %
-A = A_lin_a ;
-B = B_lin_a(:,1) ;
-
-n = size(A,1) ;
-ncon = size(B,2) ;
+A = A_lin_a - B_lin_a(:,1)*K_feedback_2_aug ;
+B = B_lin_a ;
 
 % -------- LMI -------- %
 setlmis([]) ;
 
-P = lmivar(1, [n 1]) ;
-L = lmivar(2, [ncon n]) ;
+P = lmivar(1, [2,1]) ;
+L = lmivar(2, [1,2]) ;
 
 %1st : 
 lmiterm([1,1,1,P],-1,1) ;
 
 %2nd : 
-disp('couc1') 
 lmiterm([2,1,1,P],1,A','s') ; 
 lmiterm([2,1,1,L],B,1,'s') ; 
 

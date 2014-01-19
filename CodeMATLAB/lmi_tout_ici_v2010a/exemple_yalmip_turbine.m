@@ -7,7 +7,7 @@ global f_acg_2_ng_wf f_cg f_p3 f_t4 f_ctl f_wf0_2_ng f_actl_2_ng_wf f_dctldntl
 
 %% installation du solver SeDuMi et de Yalmip
 % commentez cette ligne une fois l'install effectuée avec succès
-%install_lmi 
+% install_lmi 
 
 %% chargements les tables de donnees et les modèles linéairisés
 % lorsqu'elles existent, sinon on les crées

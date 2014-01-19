@@ -189,14 +189,14 @@ Wn_goal = 4.5/(E_goal*20) ;
 % Les poles à atteindre dépendent donc de E_goal et Wn_goal. Le troisième
 % pole sera placé à l'infini pour qu'il soit négligé dans la dynamique du
 % système bouclé
-%poles_goal_aug = [ -E_goal*Wn_goal + i*Wn_goal*sqrt(1-E_goal^2) ;
-%               -E_goal*Wn_goal - i*Wn_goal*sqrt(1-E_goal^2) ; 
-%                -E_goal*Wn_goal*50 ; -E_goal*Wn_goal*40] ;
+poles_goal_aug = [ -E_goal*Wn_goal + i*Wn_goal*sqrt(1-E_goal^2) ;
+              -E_goal*Wn_goal - i*Wn_goal*sqrt(1-E_goal^2) ; 
+               -E_goal*Wn_goal*50 ; -E_goal*Wn_goal*40] ;
            
-poles_goal_aug = [ -1 + i*0.2 ;
-                     -1 - i*0.2 ;
-               -5;
-               -6] ;               
+% poles_goal_aug = [ -1 + i*0.2 ;
+%                      -1 - i*0.2 ;
+%                -5;
+%                -6] ;               
 
 % Fonction place pour déterminer le retour d'état : 
 K_feedback_2_aug = place(A_lin_a, B_lin_a(:,1), poles_goal_aug) ; 
@@ -219,10 +219,10 @@ sim('sim_system_lin_retour_etat_aug') ;
 
 % Système Linéaire en rouge et Système Initial en bleu
 figure('name', 'Système linéarisé en boucle fermée (placement de poles)', 'units','normalized','outerposition',[0 0 1 1])
-subplot(221), hold on, grid on,  plot(D_Wf, 'b'), title('Evolution de Wf') ;
-subplot(222), hold on, grid on, plot(D_Ntl, 'b'), line([0 t_simu], [(d_goal)*Ntl_0 (d_goal)*Ntl_0], 'Color', 'r'),  line([0 t_simu], [-(d_goal)*Ntl_0 -(d_goal)*Ntl_0], 'Color', 'r'), title('Evolution de Ntl') ;
-subplot(223), hold on, grid on,  plot(D_dWf, 'b'), line([0 t_simu], [dWf_max dWf_max], 'Color', 'r'), line([0 t_simu], [-dWf_max -dWf_max], 'Color', 'r'), title('Evolutions de dWf/dt') ; 
-subplot(224), hold on, grid on,  plot(D_Wf_comm, 'b'), line([0 t_simu], [Wf_max Wf_max], 'Color', 'r'), line([0 t_simu], [Wf_min Wf_min], 'Color', 'r'), title('Evolution de la commande Wf*') ;
+subplot(221), hold on, grid on,  plot(D_Wf.time, D_Wf.signals.values, 'b'), title('Evolution de Wf') ;
+subplot(222), hold on, grid on, plot(D_Ntl.time, D_Ntl.signals.values, 'b'), line([0 t_simu], [(d_goal)*Ntl_0 (d_goal)*Ntl_0], 'Color', 'r'),  line([0 t_simu], [-(d_goal)*Ntl_0 -(d_goal)*Ntl_0], 'Color', 'r'), title('Evolution de Ntl') ;
+subplot(223), hold on, grid on,  plot(D_dWf.time, D_dWf.signals.values, 'b'), line([0 t_simu], [dWf_max dWf_max], 'Color', 'r'), line([0 t_simu], [-dWf_max -dWf_max], 'Color', 'r'), title('Evolutions de dWf/dt') ; 
+subplot(224), hold on, grid on,  plot(D_Wf_comm.time, D_Wf_comm.signals.values, 'b'), line([0 t_simu], [Wf_max Wf_max], 'Color', 'r'), line([0 t_simu], [Wf_min Wf_min], 'Color', 'r'), title('Evolution de la commande Wf*') ;
 
 
 % Creation de la matrice A-BK
@@ -240,13 +240,12 @@ Asta=A_lin_a-B_lin_a(:,1)*K_feedback_2_aug; % retour d'état stable  u = -K X
 % dv/dt= X'.A'.P + P'.A.X <0 soit  A'.P + P'A définie négative
 
 % définition des variables
-
 P = sdpvar(3,3); %P est une variable de dimension 3x3 symétrique (par defaut)
 
 % définition des contraintes
 
 F = set([P>0],'P positive');                 % P est définie positive
-F = F + set([Asta'*P + P'*Asta<0],'Lyap decroit');   % dv/dt <0 
+F = F + set([A_lin_a'*P + P'*A_lin_a<0],'Lyap decroit');   % dv/dt <0 
 
 % appel du solveur de LMI
 
