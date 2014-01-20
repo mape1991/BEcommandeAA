@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.195"
+    ComputedModelVersion    "1.174"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -25,40 +25,7 @@ Model {
     $PropName		    "BdWindowsInfo"
     $ObjectID		    1
     $ClassName		    "Simulink.BDWindowsInfo"
-    Object {
-      $PropName		      "WindowsInfo"
-      $ObjectID		      2
-      $ClassName	      "Simulink.WindowInfo"
-      IsActive		      [1]
-      Location		      [2.0, 22.0, 1282.0, 831.0]
-      Object {
-	$PropName		"ModelBrowserInfo"
-	$ObjectID		3
-	$ClassName		"Simulink.ModelBrowserInfo"
-	Visible			[0]
-	DockPosition		"Left"
-	Width			[50]
-	Height			[50]
-	Filter			[8]
-      }
-      Object {
-	$PropName		"ExplorerBarInfo"
-	$ObjectID		4
-	$ClassName		"Simulink.ExplorerBarInfo"
-	Visible			[1]
-      }
-      Object {
-	$PropName		"EditorsInfo"
-	$ObjectID		5
-	$ClassName		"Simulink.EditorInfo"
-	IsActive		[1]
-	ViewObjType		"SimulinkTopLevel"
-	LoadSaveID		"0"
-	Extents			[1248.0, 661.0]
-	ZoomFactor		[0.8]
-	Offset			[-152.2653745993606, 22.854467147435685]
-      }
-    }
+    WindowsInfo		    []
   }
   Created		  "Tue Nov 05 16:44:14 2013"
   Creator		  "maffre"
@@ -66,9 +33,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "martinpetrov"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Jan 20 01:46:37 2014"
-  RTWModifiedTimeStamp	  312083196
-  ModelVersionFormat	  "1.%<AutoIncrement:195>"
+  LastModifiedDate	  "Mon Jan 20 08:39:57 2014"
+  RTWModifiedTimeStamp	  311992284
+  ModelVersionFormat	  "1.%<AutoIncrement:174>"
   ConfigurationManager	  "None"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -103,7 +70,7 @@ Model {
   TryForcingSFcnDF	  off
   Object {
     $PropName		    "DataLoggingOverride"
-    $ObjectID		    6
+    $ObjectID		    2
     $ClassName		    "Simulink.SimulationData.ModelLoggingInfo"
     model_		    "sim_system_kalman"
     Array {
@@ -161,13 +128,13 @@ Model {
     Type		    "Handle"
     Dimension		    1
     Simulink.ConfigSet {
-      $ObjectID		      7
+      $ObjectID		      3
       Version		      "1.13.0"
       Array {
 	Type			"Handle"
 	Dimension		8
 	Simulink.SolverCC {
-	  $ObjectID		  8
+	  $ObjectID		  4
 	  Version		  "1.13.0"
 	  StartTime		  "0.0"
 	  StopTime		  "t_sim"
@@ -202,7 +169,7 @@ Model {
 	  InsertRTBMode		  "Whenever possible"
 	}
 	Simulink.DataIOCC {
-	  $ObjectID		  9
+	  $ObjectID		  5
 	  Version		  "1.13.0"
 	  Decimation		  "1"
 	  ExternalInput		  "[t, u]"
@@ -234,7 +201,7 @@ Model {
 	  Refine		  "1"
 	}
 	Simulink.OptimizationCC {
-	  $ObjectID		  10
+	  $ObjectID		  6
 	  Version		  "1.13.0"
 	  Array {
 	    Type		    "Cell"
@@ -290,7 +257,7 @@ Model {
 	  ParallelExecutionInRapidAccelerator on
 	}
 	Simulink.DebuggingCC {
-	  $ObjectID		  11
+	  $ObjectID		  7
 	  Version		  "1.13.0"
 	  RTPrefix		  "error"
 	  ConsistencyChecking	  "none"
@@ -380,7 +347,7 @@ Model {
 	  SFTransitionActionBeforeConditionDiag	"warning"
 	}
 	Simulink.HardwareCC {
-	  $ObjectID		  12
+	  $ObjectID		  8
 	  Version		  "1.13.0"
 	  ProdBitPerChar	  8
 	  ProdBitPerShort	  16
@@ -421,7 +388,7 @@ Model {
 	  ProdEqTarget		  on
 	}
 	Simulink.ModelReferenceCC {
-	  $ObjectID		  13
+	  $ObjectID		  9
 	  Version		  "1.13.0"
 	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
 	  CheckModelReferenceTargetMessage "error"
@@ -436,7 +403,7 @@ Model {
 	  SupportModelReferenceSimTargetCustomCode off
 	}
 	Simulink.SFSimCC {
-	  $ObjectID		  14
+	  $ObjectID		  10
 	  Version		  "1.13.0"
 	  SFSimEnableDebug	  on
 	  SFSimOverflowDetection  on
@@ -451,7 +418,7 @@ Model {
 	}
 	Simulink.RTWCC {
 	  $BackupClass		  "Simulink.RTWCC"
-	  $ObjectID		  15
+	  $ObjectID		  11
 	  Version		  "1.13.0"
 	  Array {
 	    Type		    "Cell"
@@ -515,7 +482,7 @@ Model {
 	    Type		    "Handle"
 	    Dimension		    2
 	    Simulink.CodeAppCC {
-	      $ObjectID		      16
+	      $ObjectID		      12
 	      Version		      "1.13.0"
 	      Array {
 		Type			"Cell"
@@ -582,7 +549,7 @@ Model {
 	    }
 	    Simulink.GRTTargetCC {
 	      $BackupClass	      "Simulink.TargetCC"
-	      $ObjectID		      17
+	      $ObjectID		      13
 	      Version		      "1.13.0"
 	      Array {
 		Type			"Cell"
@@ -674,11 +641,11 @@ Model {
   }
   Simulink.ConfigSet {
     $PropName		    "ActiveConfigurationSet"
-    $ObjectID		    7
+    $ObjectID		    3
   }
   Object {
     $PropName		    "DataTransfer"
-    $ObjectID		    18
+    $ObjectID		    14
     $ClassName		    "Simulink.GlobalDataTransfer"
     DefaultTransitionBetweenSyncTasks "Ensure deterministic transfer (maximum delay)"
     DefaultTransitionBetweenAsyncTasks "Ensure data integrity only"
@@ -1090,8 +1057,8 @@ Model {
   }
   System {
     Name		    "sim_system_kalman"
-    Location		    [2, 22, 1284, 853]
-    Open		    on
+    Location		    [8, 44, 1290, 878]
+    Open		    off
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
     ScreenColor		    "white"
@@ -1102,7 +1069,7 @@ Model {
     TiledPaperMargins	    [1.270000, 1.270000, 1.270000, 1.270000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "80"
+    ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
     SIDHighWatermark	    "205"
     Block {
@@ -1202,79 +1169,59 @@ Model {
       DisplayOption	      "bar"
     }
     Block {
+      BlockType		      Gain
+      Name		      "Gain"
+      SID		      "199"
+      Position		      [955, 330, 985, 360]
+      ZOrder		      -12
+      Gain		      "1/1000"
+      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Gain
+      Name		      "Gain1"
+      SID		      "200"
+      Position		      [970, 505, 1000, 535]
+      ZOrder		      -13
+      Gain		      "1/1000"
+      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Gain
+      Name		      "Gain2"
+      SID		      "201"
+      Position		      [1015, 40, 1045, 70]
+      ZOrder		      -14
+      Gain		      "1/1000"
+      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Gain
+      Name		      "Gain3"
+      SID		      "202"
+      Position		      [1015, 230, 1045, 260]
+      ZOrder		      -15
+      Gain		      "1/1000"
+      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
       BlockType		      Mux
       Name		      "Mux"
       SID		      "150"
       Ports		      [5, 1]
       Position		      [705, 663, 710, 777]
-      ZOrder		      -12
+      ZOrder		      -16
       ShowName		      off
       Inputs		      "5"
       DisplayOption	      "bar"
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "Noise Ng"
-      SID		      "178"
-      Ports		      [0, 1]
-      Position		      [440, 255, 470, 285]
-      ZOrder		      -13
-      BackgroundColor	      "gray"
-      LibraryVersion	      "1.274"
-      SourceBlock	      "simulink/Sources/Band-Limited\nWhite Noise"
-      SourceType	      "Band-Limited White Noise."
-      Cov		      "[Precision_Ng*40]"
-      Ts		      "0.001"
-      seed		      "[23341]"
-      VectorParams1D	      on
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "Noise Ntl"
-      SID		      "185"
-      Ports		      [0, 1]
-      Position		      [440, 530, 470, 560]
-      ZOrder		      -14
-      BackgroundColor	      "gray"
-      LibraryVersion	      "1.274"
-      SourceBlock	      "simulink/Sources/Band-Limited\nWhite Noise"
-      SourceType	      "Band-Limited White Noise."
-      Cov		      "[Precision_Ntl*40]"
-      Ts		      "0.001"
-      seed		      "[23341]"
-      VectorParams1D	      on
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "Noise P3"
-      SID		      "179"
-      Ports		      [0, 1]
-      Position		      [440, 310, 470, 340]
-      ZOrder		      -15
-      BackgroundColor	      "[0.501961, 0.501961, 0.501961]"
-      LibraryVersion	      "1.274"
-      SourceBlock	      "simulink/Sources/Band-Limited\nWhite Noise"
-      SourceType	      "Band-Limited White Noise."
-      Cov		      "[Precision_P3*0.000015]"
-      Ts		      "0.001"
-      seed		      "[23341]"
-      VectorParams1D	      on
-    }
-    Block {
-      BlockType		      Reference
-      Name		      "Noise T45"
-      SID		      "180"
-      Ports		      [0, 1]
-      Position		      [440, 475, 470, 505]
-      ZOrder		      -16
-      BackgroundColor	      "gray"
-      LibraryVersion	      "1.274"
-      SourceBlock	      "simulink/Sources/Band-Limited\nWhite Noise"
-      SourceType	      "Band-Limited White Noise."
-      Cov		      "[Precision_T45*0.3]"
-      Ts		      "0.001"
-      seed		      "[23341]"
-      VectorParams1D	      on
     }
     Block {
       BlockType		      Step
@@ -1704,9 +1651,17 @@ Model {
 	  Ports			  [1, 1]
 	  Position		  [165, 92, 225, 128]
 	  ZOrder		  -16
-	  LibraryVersion	  "1.44"
+	  LibraryVersion	  "1.41"
 	  SourceBlock		  "simulink_extras/Additional\nLinear/Transfer Fcn\n(with initial outputs)"
 	  SourceType		  "Transfer Function with Initial Outputs"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
 	  N			  "[1]"
 	  D			  "[tdos  1]"
 	  Y0			  "Wf_0"
@@ -1725,9 +1680,17 @@ Model {
 	  Ports			  [1, 1]
 	  Position		  [525, 347, 585, 383]
 	  ZOrder		  -17
-	  LibraryVersion	  "1.44"
+	  LibraryVersion	  "1.41"
 	  SourceBlock		  "simulink_extras/Additional\nLinear/Transfer Fcn\n(with initial outputs)"
 	  SourceType		  "Transfer Function with Initial Outputs"
+	  ShowPortLabels	  "FromPortIcon"
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
 	  N			  "[1]"
 	  D			  "[tth  1]"
 	  Y0			  "T45_0"
@@ -2501,6 +2464,13 @@ Model {
     }
     Line {
       SrcBlock		      "Système Initial"
+      SrcPort		      1
+      Points		      [300, 0; 0, -60]
+      DstBlock		      "Gain2"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Système Initial"
       SrcPort		      2
       DstBlock		      "To Workspace1"
       DstPort		      1
@@ -2513,9 +2483,22 @@ Model {
       DstPort		      1
     }
     Line {
+      SrcBlock		      "Système Initial"
+      SrcPort		      4
+      Points		      [290, 0; 0, 85]
+      DstBlock		      "Gain3"
+      DstPort		      1
+    }
+    Line {
       SrcBlock		      "Sum2"
       SrcPort		      1
       DstBlock		      "To Workspace5"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Sum4"
+      SrcPort		      1
+      DstBlock		      "Gain1"
       DstPort		      1
     }
     Line {
@@ -2720,54 +2703,32 @@ Model {
     Line {
       SrcBlock		      "Sum1"
       SrcPort		      1
+      DstBlock		      "Gain"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Gain"
+      SrcPort		      1
       DstBlock		      "To Workspace4"
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Système Initial"
-      SrcPort		      4
-      Points		      [290, 0; 0, 85]
-      DstBlock		      "To Workspace3"
-      DstPort		      1
-    }
-    Line {
-      SrcBlock		      "Système Initial"
-      SrcPort		      1
-      Points		      [240, 0; 0, -60]
-      DstBlock		      "To Workspace"
-      DstPort		      1
-    }
-    Line {
-      SrcBlock		      "Sum4"
+      SrcBlock		      "Gain1"
       SrcPort		      1
       DstBlock		      "To Workspace7"
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Noise Ng"
+      SrcBlock		      "Gain2"
       SrcPort		      1
-      Points		      [60, 0]
-      DstBlock		      "Sum3"
+      DstBlock		      "To Workspace"
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Noise P3"
+      SrcBlock		      "Gain3"
       SrcPort		      1
-      Points		      [30, 0; 0, 55]
-      DstBlock		      "Sum5"
+      DstBlock		      "To Workspace3"
       DstPort		      1
-    }
-    Line {
-      SrcBlock		      "Noise T45"
-      SrcPort		      1
-      DstBlock		      "Sum10"
-      DstPort		      2
-    }
-    Line {
-      SrcBlock		      "Noise Ntl"
-      SrcPort		      1
-      DstBlock		      "Sum6"
-      DstPort		      2
     }
     Annotation {
       SID		      "205"
