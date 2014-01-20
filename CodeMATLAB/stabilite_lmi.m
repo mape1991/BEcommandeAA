@@ -27,9 +27,8 @@ L = lmivar(2, [ncon n]) ;
 lmiterm([1,1,1,P],-1,1) ;
 
 % 2nd : 
-disp('couc1') 
-lmiterm([2,1,1,P],1,A','s') ; 
-lmiterm([2,1,1,L],B,1,'s') ; 
+lmiterm([2,1,1,P],1,A','s') ;  
+lmiterm([2,1,1,L],B,1,'s') ;     
 lmisys = getlmis ; 
 [tmin,xfeas] = feasp(lmisys) ; 
 L1 = dec2mat(lmisys,xfeas,L) ; 

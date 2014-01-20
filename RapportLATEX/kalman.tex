@@ -69,13 +69,12 @@ y \quad = \quad \left[ \begin{array}{cccc}
 
 \paragraph{}Sur la figure suivante on peut observer les quatre sorties avec le bruit associé. Dans le script simulink nous avons ajouté un bruit  pour chaque sortie avec le block \emph{Band Limited White noise}. Les valeurs de la densité spectrale sont obtenues avec un produit de la précision relative et une constante. La précision relative nous donne la valeur de l'intervalle pour la sortie. Pour $N_{tl}$ la valeur nominale est $28000$, dont l'intervalle des valeurs est : $[28000 +\Delta N_g , 28000 -\Delta N_g ]$, avec $\Delta N_g = Precision * 28000$. 
 
-% insert figure
-%\begin{figure} [H]
-%\centering 
-%\scalebox{0.7}{ \input{./figures/sortie_bruit.tikz} }
-%\caption{Sorties bruitées avec \emph{white noise}} 
-%\label{fig:sortie_bruit}
-%\end{figure}
+	\begin{figure}[H]
+\centering
+\includegraphics[scale=.45]{./figures/sortie_bruit.eps}
+\caption{Signaux bruités de sortie en entrée de l'observateur de Kalman}
+\label{fig:sortie_bruit}
+\end{figure}
 
 \paragraph{}Dans le système nous considérons que les bruits du modèle ne sont par très importants ($10^{-5}$). Les bruits de mesure sont importants ($10^{-3}$), autrement dit peu de confiance dans les capteurs. Les matrices suivantes présentent la confiance dans les mesures (capteurs) et la confiance dans le modèle respectivement (matrices de covariance) :
 \begin{equation}		
@@ -86,8 +85,8 @@ R_{N} =
   0 & 0 & 0.001 & 0\\
   0 & 0 & 0 & 0.001
  \end{pmatrix}
-\quad and
-\quad R_{N} =
+\quad et
+\quad Q_{N} =
  \begin{pmatrix}
   0.00001 
   \end{pmatrix}
@@ -132,13 +131,12 @@ y \quad = \quad \left[ \begin{array}{ccc}
 
 % Insert figure kalman estimation
 
-%\begin{figure} [H]
-%\centering 
-%\scalebox{0.7}{ \input{./figures/resultat_kalman.tikz} }
-%\caption{Sorties du observateur (filtre) de Kalman avec les sorties bruitées} 
-%\label{fig:resultat_kalman}
-%\end{figure}
-
+	\begin{figure}[H]
+\centering
+\includegraphics[scale=.45]{./figures/resultat_kalman.eps}
+\caption{Signaux bruités et filtrés en sortie de l'observateur de Kalman}
+\label{fig:resultat_kalman}
+\end{figure}
 
 % Futur propositions et évolutions (Observateur a gain variable)	
 \paragraph{Observateur à gain variable}

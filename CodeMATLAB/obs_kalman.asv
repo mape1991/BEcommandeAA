@@ -40,7 +40,7 @@ figure('name', 'Sorties de capteurs (avec Bruit)', 'units','normalized','outerpo
 subplot(321), hold on, grid on, plot(D_Ng.time, D_Ng.signals.values, 'r'), line([0 t_sim],[Ng_0 - Precision_Ng*Ng_0 Ng_0 - Precision_Ng*Ng_0], 'Color', 'b'), line([0 t_sim],[Ng_0 + Precision_Ng*Ng_0 Ng_0 + Precision_Ng*Ng_0], 'Color', 'b'),  xlabel('Temps [s]'), ylabel('N_g [1000tr/min]'), title('Evolution de Ng'), 
 subplot(322), hold on, grid on, plot(D_Ntl.time, D_Ntl.signals.values, 'r'), line([0 t_sim],[Ntl_0 - Precision_Ntl*Ntl_0 Ntl_0 - Precision_Ntl*Ntl_0], 'Color', 'b'), line([0 t_sim],[Ntl_0 + Precision_Ntl*Ntl_0 Ntl_0 + Precision_Ntl*Ntl_0], 'Color', 'b'),   xlabel('Temps [s]'), ylabel('N_{tl} [1000tr/min]'), title('Evolution de Ntl') ; 
 subplot(323), hold on, grid on, plot(D_T45.time, D_T45.signals.values, 'r'), line([0 t_sim],[T45_0 - Precision_T45*T45_0 T45_0 - Precision_T45*T45_0], 'Color', 'b'), line([0 t_sim],[T45_0 + Precision_T45*T45_0 T45_0 + Precision_T45*T45_0], 'Color', 'b'), xlabel('Temps [s]'), ylabel('T_{45} [Degrees C]'), title('Evolution de T45') ;
-subplot(324), hold on, grid on, plot(D_P3.time, D_P3.signals.values, 'r'), line([0 t_sim],[P3_0 - Precision_P3*P3_0 P3_0 - Precision_P3*P3_0], 'Color', 'b'), line([0 t_sim],[P3_0 + Precision_P3*P3_0 P3_0 + Precision_P3*P3_0]), xlabel('Temps [s]'), ylabel('P_{3} [Pa]'), title('Evolution de P3') ;
+subplot(324), hold on, grid on, plot(D_P3.time, D_P3.signals.values, 'r'),plot(D_P3.time, P3_0 + Precision_P3*P3_0, 'b'), plot(P3.time, P3_0 - Precision_P3*P3_0, 'b'), xlabel('Temps [s]'), ylabel('P_{3} [Pa]'), title('Evolution de P3') ;
 subplot(3,2,[5:6]), hold on, grid on, plot(D_Wf.time, D_Wf.signals.values, 'r'),  xlabel('Temps [s]'), ylabel('W_f [L/h]'), title('Evolution de Wf') ;
 
 
@@ -50,7 +50,7 @@ t_sim = 20 ; sim('sim_system_kalman', t_sim) ;
  
 % Syst?me Lin?aire en rouge et Kalman en vert
 figure('name', 'Syst?me lin?aris? avec un filtre de Kalman', 'units','normalized','outerposition',[0 0 1 1])
-subplot(221), hold on, grid on, plot(D_Wf.time, D_Wf.signals.values, 'r'), plot(K_Wf.time, K_Wf.signals.values, 'g', 'linewidth', 1), title('Evolutions de Wf'), legend('Linéaire', 'Kalman') ,
+subplot(221), hold on, grid on, plot(D_Wf.time, D_Wf.signals.values, 'r'), plot(K_Wf.time, K_Wf.signals.values, 'g', 'linewidth', 1), title('Evolutions de Wf'), legend('Lin?aire', 'Kalman') ,
 subplot(222), hold on, grid on, plot(D_Ng.time, D_Ng.signals.values, 'r'), plot(K_Ng.time, K_Ng.signals.values, 'g', 'linewidth', 1), title('Evolution de Ng') ;
 subplot(223), hold on, grid on, plot(D_Ntl.time, D_Ntl.signals.values, 'r'), plot(K_Ntl.time, K_Ntl.signals.values, 'g', 'linewidth', 1), title('Evolution de Ntl') ; 
 

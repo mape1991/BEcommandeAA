@@ -137,32 +137,39 @@ y \quad = \quad \left[ \begin{array}{ccccc}
 	
 	\paragraph{}Pour le placement de pôle maintenant nous avons quatre pôles à placer. Nous allons utiliser la même méthode que précédemment. Les premiers deux pôles seront ceux qui fixent le régime transitoire. Les deux autres seront placés très loin avec un temps de réponse plus rapide. Les valeurs sont : 
 	\begin{equation}
-	[p1;p2] = -0.2250 \pm i.0.2069\quad
-	p3 = -11.25 \quad
-	p4 = -9
+	[p1;p2] = -0.3 \pm i.0.2\quad
+	p3 = -11 \quad
+	p4 = -13
 	\end{equation}
 	
 	Le gain du retour d'état est : 
 	\begin{equation}
 		K = \begin{pmatrix}
-   -0.0179  &  0.0538 &  -0.0050  &  0.0059
+   0.1927  &  0.0816   & 0.0060   & 0.0116
 		\end{pmatrix}
 	\end{equation}	
 	
-	\paragraph{}Avant de faire la simulation nous ajoutons les saturateurs dans le schéma Simulink (cf. \ref{fig:simulink_retour_etat_aug}). On peut observer les variations de la réponse impulsionnelle de $N_{tl}$ quand la consigne de la charge change de valeur. En régime statique l'erreur statique reste nulle. Le régime transitoire ne correspond pas aux performances souhaitées. Nous remarquons un dépassement assez important et en temps de réponse lent. L'objectif est de respecter la variation de la commande. Ça permet d'optimiser l'énergie consommée par la commande. 
+	\paragraph{}Avant de faire la simulation, nous ajoutons les saturateurs dans le schéma Simulink. On peut observer les variations de la réponse impulsionnelle de $N_{tl}$ quand la consigne de la charge change de valeur. En régime statique l'erreur statique reste nulle. Le régime transitoire ne correspond pas aux performances souhaitées. Nous remarquons un dépassement assez important et en temps de réponse lent. L'objectif est de respecter la variation de la commande. Ça permet d'optimiser l'énergie consommée par la commande. 
 	
-	TODO : figure de Modèle augmenté. (Julien)
+\begin{figure}[H]
+\centering
+\includegraphics[scale=.45]{./figures/retour_etat_final_aug.eps}
+\caption{Evolution des états et des variables limitées du système linéarisé (avec un retour d'état)}
+\label{fig:retour_etat_final_aug}
+\end{figure}
+
+	\paragraph{} Nous n'avons pas réussi à obtenir les performances spécifiées par le cahier des charges, sur $N_{tl}$ et sur la dérivée de la commande $\frac{dW_f}{dt}$. En effet, diminuer le temps de réponse du système pour limiter le dépassement sur $N_{tl}$ se traduit par une augmentation significative de l'amplitude $\frac{dW_f}{dt}$. Un compromis a été trouvé ici et correspond à un dépassement sur $N_{tl}$ de 19.8\% et une amplitude de $\frac{dW_f}{dt}$ de 814 L/h/s.
+		
+	\paragraph{}Si on diminue le temps de réponse le dépassement diminue également. Un autre moyen consiste à changer les saturateurs et augmenter les limites de variation. Pour respecter le cahier des charges nous devons faire une commande $H_\infty$. Cela optimise la commande en respectant son énergie.  
 	
-	\paragraph{}Si on diminue le temps de réponse le dépassement diminue également. Autre moyen est de changer les saturateurs et augmenter les limites de variation. Pour respecter le cahier des charges nous devons faire une commande $H_\infty$. Cela optimise la commande en respectant son énergie.  
-	
-	TODO : explication de la courbe et évolution du régime transitoire en fonction de placement des pôles. 
+
 	
 	\section{Pire échelon de charge}
 	\paragraph{}Le pire échelon est défini par un échelon qui va de la charge minimale à la charge maximale (équilibré autour de $(W_f)_{min}$ et $(W_f)_{max}=isowf(end)$). La rapidité maximale est limitée à $64m.\frac{daN}{s}$. Les valeurs obtenues sont :\\
 	
 \begin{itemize}
 \item [-] $Wf_{min}$ = -199.6451
-\item [-] $Wf_min$ = 38.3780
+\item [-] $Wf_{max}$ = 38.3780
 \item [-] $(C_{charge})_{min}$ = -10.3398
 \item [-] $(C_{charge})_{max}$ = 1.6522
 \end{itemize}		

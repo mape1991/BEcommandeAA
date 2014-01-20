@@ -73,12 +73,12 @@
 						\end{equation}
 
 		
-		La matrice dynamique $A$ d'un système bouclé avec un gain de retour d'état $u = -Kx$ étant égale à $A_{bouclé} = (A - BK)$, on aura alors la \textit{LMI} suivante comme condition nécessaire et suffisante de stabilité : 
+		La matrice dynamique $A$ d'un système bouclé avec un gain de retour d'état $u = Kx$ étant égale à $A_{bouclé} = (A - BK)$, on aura alors la \textit{LMI} suivante comme condition nécessaire et suffisante de stabilité : 
 		
 		
 						\begin{equation}
 				\begin{split} \label{eq:lmi_base}
-			P(A-BK)^T + (A+BK)P & < 0 \\
+			P(A+BK)^T + (A+BK)P & < 0 \\
 			P & > 0 
 					\end{split}
 						\end{equation}
@@ -119,10 +119,10 @@
 	
 		\begin{equation}
 				\begin{split}
-			P(A_1-BK)^T + (A_1+BK)P & < 0 \\
-			P(A_2-BK)^T + (A_2+BK)P & < 0 \\
+			P(A_1-BK)^T + (A_1-BK)P & < 0 \\
+			P(A_2-BK)^T + (A_2-BK)P & < 0 \\
 			\cdots \\
-			P(A_n-BK)^T + (A_n+BK)P & < 0 \\
+			P(A_n-BK)^T + (A_n-BK)P & < 0 \\
 			P & > 0 
 				\end{split}
 		\end{equation}
