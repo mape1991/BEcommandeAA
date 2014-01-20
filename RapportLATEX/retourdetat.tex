@@ -53,22 +53,116 @@
 % --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- %
 \rhead{\footnotesize\rightmark}
 \chapter{Commande par retour d'état}
-
-	\textcolor{red}{Petrov}
-
+L'objectif de cette partie est de concevoir une commande par retour d'état qui respecte certains contraintes en prenant directement l'état mesuré sur le modèle linéarité non bruité. La commande doit imposer une simple régulation de la turbine autour d'un point de fonctionnement. L'hypothèse est que le système est commandable et observable. La conception de cette commande permet de placer les pôles du système en boucle fermée. En fonction du cahier des charges (temps de réponse, dépassement, bande passante) on va placer les pôles afin d'avoir un système asymptotiquement stable et qui respecte les performances souhaitées. 
 
 	\section{Performances du système linéarisé}
+	\paragraph{}Avant d'appliquer la commande par retour d'état il faut vérifier les performances du système linéarisé. La première propriété est la stabilité. Les valeurs propres sont tous de partie réelle négative, donc le système est asymptotiquement stable. Les valeurs propres de la matrice dynamique $A_{lin}$ sont : 
+	\begin{equation}
+	\lambda_1 = -0.5289 \quad \lambda_2 = -1.9835 \quad \lambda_3 = -18.5185 
+	\end{equation}
 	
+	\paragraph{}Si on trace les réponses impulsionnelles du système linéarité on peut remarquer que certains sorties dependent que d'une entrée. $N_{tl}$ depend que de $C_{charge}$ et les autres dependent que de $W_f$. Le temps de réponse est inférieur à 5s et le dépassement est négligeable. L'objectif de notre commande par retour d'état sera de respecter le cahier des charges et de ne pas trop modifier le fonctionnement nominal du système.
 	
 	\section{Cahier des charges}
+	\paragraph{}La loi de commande doit assurer un asservissement de la vitesse de la turbine libre $N_{tl}$ autour de sa valeur nominale. L'erreur statique doit être nulle malgré les variations de la charge utile $C_{charge}$, que nous considérons comme une réelle perturbation. La stabilité du système sera démontrée et la dynamique sera optimisée par la suite. 
 	
-	
+	\paragraph{}Le correcteur de retour d'état doit respecter les contraintes suivantes :\\
+\begin{itemize}
+\item [-] Erreur statique sur $N_{tl}$ nulle sur toute la plage
+\item [-] Respecter les capacités de la turbine : débit wf ne dépassant pas excessivement la limite du slew rate et le débit maximal
+\item [-] Marge de phase de 60 degrés
+\item [-] Protection de la turbine : Débit minimal $W_f^{min}$ = $60 \frac{l}{h}$
+\item [-] Débit de carburant maximum $W_f^{max}(P3)$
+\item [-] Slew rate $\dot{W_f}_{max}$ = $100 \frac{l/h}{s}$ 
+\end{itemize}
+
+	\paragraph{}Ces contraintes doivent être respectées quand le pire échelon sera appliquer dans le système.
+		
 	\section{Placement de pôles}
+	L'idée de placement de pôles est de simplifier la dynamique du système linéarisé en une dynamique d'un système de second ordre. On peut facilement calculer les pôles en function du temps de réponse et du dépassement souhaité. En partant de la fonction du transfert d'un système du second ordre :
+	\begin{equation}
+	G = \frac{K.\omega_{n}^2}{s^2 + 2.\zeta.\omega_n + \omega_{n}^2}	
+	\end{equation}
+
+	d'où les deux pôles en fonction de coefficient d'amortissement $\zeta$ et de la pulsation propre $\omega_n$:
+	\begin{equation}
+	[p1;p2] = -\zeta.\omega_n \pm i.\omega_n.\sqrt{1-\zeta^2}
+	\end{equation}
+
+	\paragraph{}L'objectif est de limiter le dépassement de la réponse impulsionnelle dans le cas d'un pire echelon. On impose un dépassement inférieur à 5\%. Cela veut dire que le coefficient d'amortissement doit être supérieur à $\frac{\sqrt{2}}{2}$. La pulsation propre $\omega_n$ est calculée avec la formule :
+	\begin{equation}
+	-\zeta.\omega_n \leq -\frac{4.5}{t_r}
+	\end{equation}
+
+	\paragraph{}Les valeurs obtenues pour les poles sont:
+	\begin{equation}
+	[p1;p2] = -4.5000 \pm i.3.9411\quad
+	p3 = -5
+	\end{equation}
+\paragraph{}Le troisième pôle est réel négatif et plus rapide que les deux pôles conjugés. Autrement dit les premiers deux pôles seront dominants et satisferont la performance du régime transitoire du système demandée dans le cahier des charges. Cette méthode permet de régler la dynamique du système en régime transitoire. On remarque que plus les pôles sont négatifs (rapides) plus le système consomme d'énergie afin d'établir la commande. Si le temps de réponse diminue, l'énergie consommée par la commande diminue. 
 	
+	\paragraph{}L'objectif de la commande est d'avoir une erreur statique nulle qui ne depend pas de la perturbation $C_{charge}$. Avec ces trois pôles la commande ne peut jamais satisfaire cette contrainte. Pour avoir une erreur statique nulle il faut ajouter un intégrateur dans le modèle d'état. Pour cela on va changer le modèle d'état.
 	
 	\section{Retour d'état augmenté}
+	Pour mieux satisfaire la contrainte d'erreur statique nulle on ajoute l'intégrateur dans le modèle d'état. De cette façon on peut réutiliser ce modèle d'état pour l'observateur de Kalman. Si on ajoute un intégrateur dehors le système il faut prévoir plusieurs calculs pour répondre aux mêmes contraintes. 
 	
+	\paragraph{}On va ajouter un état supplémentaire dans la matrice dynamique qui est l'intégrale de $N_{tl}$. le modèle devient :
+		\begin{displaymath}
+\left\{ \begin{array}{l} \dot{x} \quad = \quad \left[ \begin{array}{cccc}
+
+  -18.5185     &    0     &    0      &   0\\
+   65.5871 &   -1.9835  &       0   &      0\\
+   17.1650  &  0.8011 &  -0.5289   &      0\\
+         0   &      0  &  1.0000    &     0
+\end{array}\right]  x \quad + \quad \left[ \begin{array}{ccccc}
+   18.5185      &   0\\
+         0     &    0\\
+         0 & -381.2529\\
+         0   &      0
+\end{array} \right] u\\ \\
+y \quad = \quad \left[ \begin{array}{ccccc}
+         0   & 1.0000        & 0   &      0\\
+    0.0020  &  0.0002   &      0    &     0\\
+    1.6012 &  -0.0228   &      0    &     0\\
+         0   &      0  &  1.0000    &     0\\
+         0    &     0    &     0   & 1.0000
+\end{array} \right] x \quad + \quad \left[ \begin{array}{ccccc}
+         0 & 0  \\
+    	0 & 0  \\
+	0 & 0  \\
+	0 & 0  \\
+	0 & 0 
+\end{array} \right] u \end{array}\right.
+\end{displaymath}\\
+	
+	\paragraph{}Pour le placement de pôle maintenant nous avons quatre pôles à placer. Nous allons utiliser la même méthode que précédemment. les premiers deux pôles seront ceux qui fixe le régime transitoire. Les deux autres seront placés très loin avec un temps de réponse plus rapide. Les valeurs sont : 
+	\begin{equation}
+	[p1;p2] = -0.2250 \pm i.0.2069\quad
+	p3 = -11.25 \quad
+	p4 = -9
+	\end{equation}
+	
+	Le gain du retour d'état est : 
+	\begin{equation}
+		K = \begin{pmatrix}
+   -0.0179  &  0.0538 &  -0.0050  &  0.0059
+		\end{pmatrix}
+	\end{equation}	
+	
+	\paragraph{}Avant de faire la simulation nous ajoutons les saturateurs dans le schema Simulink (cf. \ref{fig:simulink_retour_etat_aug}). On peut observer les variations de la réponse impulsionnelle de $N_{tl}$ quand la consigne de la charge change de valeur. En régime statique l'erreur statique reste nulle. Le régime transitoire ne correspond pas aux performances souhaitées. Nous remarquons un dépassement assez important et en temps de réponse lent. L'objectif est de respecter la variation de la commande. Ça permet d'optimiser l'énergie consommée par la commande. 
+	
+	TODO : figure de Modèle augmenté. (Julien)
+	
+	\paragraph{}Si on diminue le temps de réponse le dépassement diminue également. Autre moyen est de changer les saturateurs et augmenter les limites de variation. Pour respecter le cahier des charges nous devons faire une commande $H_\infty$. Cela optimise la commande en respectant son énergie.  
+	
+	TODO : explication de la courbe et evolution du régime transitoire en fonction de placement des pôles. 
 	
 	\section{Pire échelon de charge}
+	\paragraph{}Le pire échelon est défini par un échelon qui va de la charge minimala à la charge maximale (équilibré autour de $(W_f)_{min}$ et $(W_f)_{max}=isowf(end)$). La rapidité maximale est limitée à $64m.\frac{daN}{s}$. Les valeurs obtenues sont :\\
 	
-	
+\begin{itemize}
+\item [-] $Wf_{min}$ = -199.6451
+\item [-] $Wf_min$ = 38.3780
+\item [-] $(C_{charge})_{min}$ = -10.3398
+\item [-] $(C_{charge})_{max}$ = 1.6522
+\end{itemize}		
