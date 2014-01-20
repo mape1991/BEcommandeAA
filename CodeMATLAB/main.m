@@ -145,14 +145,14 @@ Wn_goal = 4.5/(E_goal*20) ;
 % pole sera plac? ? l'infini pour qu'il soit n?glig? dans la dynamique du
 % syst?me boucl?
 
-poles_goal_aug = [ -E_goal*Wn_goal + i*Wn_goal*sqrt(1-E_goal^2) ;
-              -E_goal*Wn_goal - i*Wn_goal*sqrt(1-E_goal^2) ; 
-               -E_goal*Wn_goal*50 ; -E_goal*Wn_goal*40] ;
+% poles_goal_aug = [ -E_goal*Wn_goal + i*Wn_goal*sqrt(1-E_goal^2) ;
+%               -E_goal*Wn_goal - i*Wn_goal*sqrt(1-E_goal^2) ; 
+%                -E_goal*Wn_goal*50 ; -E_goal*Wn_goal*40] ;
            
-% poles_goal_aug = [ -1 + i*0.2 ;
-%                      -1 - i*0.2 ;
-%                -5;
-%                -6] ;               
+poles_goal_aug = [ -0.3 + i*0.2 ;
+                     -0.3 - i*0.2 ;
+               -11;
+               -13] ;               
 
 % Fonction place pour d?terminer le retour d'?tat : 
 K_feedback_2_aug = place(A_lin_a, B_lin_a(:,1), poles_goal_aug) ; 
