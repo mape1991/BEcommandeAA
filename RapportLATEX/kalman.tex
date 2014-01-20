@@ -1,61 +1,148 @@
 % !TEX encoding = IsoLatin
 % --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- %
-%\begin{itemize}
-%\item [-] \textbf{Création} : Demandée par un autre processus,  crée dans l'état prêt ou suspendu.
-%\item [-] \textbf{Destruction} : peut être fait par le processus lui-même, un autre processus, le noyau. La destruction provoque une libération des ressources associées et un évènement.
-%\item [-] \textbf{Blocage} : passage en mode bloqué en attente d'un évènement externe. Peut être demandé par le processus lui-même ou par le système.
-%\item [-] \textbf{Déblocage} : passage en mode prêt après le mode bloqué lorsque l'événement attendu se produit.
-%\item [-] \textbf{Activation} : passage en mode exécution d'un mode prêt.
-%\end{itemize}
+%TODO : Figures EPS format for 3D matlab.......
 
-  
-%\begin{Verbatim}[frame=single,fontsize=\scriptsize]
-%\end{Verbatim}
-
-%\begin{figure}[h]
-%	\begin{center}
-%		\includegraphics[width=14.5cm,height=9cm]{.\figures\diag_etat_threads.png}
-%	\end{center}
-%	\caption{Diagramme des différents états d'un thread avec les primitives}
-%	\label{fig:diag_etat_threads}
-%\end{figure}
-
-%% Modele d'etat avec les matrices
-
-%\begin{displaymath}
-%\left\{ \begin{array}{l} \dot{x} \quad = \quad \left[ \begin{array}{cccc}
-%0 & 1 & 0 & 1\\
-%- \frac{K_s}{M_s} & - \frac{C_s}{M_s} & 0 & \frac{C_s}{M_s}\\
-%0 & 0 & 0 & 1\\
-%\frac{K_s}{M_u} & \frac{C_s}{M_u} & - \frac{K_t}{M_u} & - \frac{C_s}{M_u} - \frac{C_t}{M_u}
-%
-%\end{array}\right]  x \quad + \quad \left[ \begin{array}{cc}
-%0 & 1.1972\\
-%0 & - 0.0012\\
-%0 & 0\\
-%7.84 & - 4.05
-%\end{array} \right] u\\ \\
-%y \quad = \quad \left[ \begin{array}{cccc}
-%1 & 0 & 0 & 0\\
-%0 & \lambda & 0 & 0\\
-%0 & 0 & \lambda & 0\\
-%0 & 0 & 0 & \lambda\\
-%0 & - \lambda & \lambda & 0
-%\end{array} \right] x \quad + \quad \left[ \begin{array}{cc}
-%0 & 0\\
-%0 & 0\\
-%0 & 0\\
-%0 & 0\\
-%0 & 0
-%\end{array} \right] u \end{array}\right.
-%\end{displaymath}\\
-
-% --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- %
 \rhead{\footnotesize\rightmark}
 \chapter{Observateur du Kalman}
 
-	\textcolor{red}{Petrov}
+\paragraph{}L'objectif du filtre de Kalman est d'estimer les états x(t) du système à partir d'une série des mesures incomplètes ou bruitées. Cet estimé noté $\hat{x}(t)$, est la sortie du filtre de Kalman. Ce filtre suggère une relation entrées-sorties avec une optimisation des mesures. Le modèle d'état de Kalman prend en compte les bruits d'entrée (modèle) et les bruits des capteurs de mesure des sorties. La notation propre au Kalman d'un modèle avec bruit :
 
+\begin{displaymath}
+\begin{array}{l} \dot{x} \quad = \quad A.x(t) \quad + \quad B.u(t) + \quad M.w(t)\\ \\
+y \quad = \quad C.x(t) \quad + \quad D.u(t) + \quad v(t) \end{array}
+\end{displaymath}
+
+\paragraph{}Certains hypotheses doivent être respectées pour que la théorie du filtre Kalman soit valable:\\
+
+\begin{itemize}
+\item [-] Le système et les bruits sont stationnaires (Les matrices du modèle d'état sont indépendantes du temps)
+\item [-] La paire (A,C) est détectable, c'est à dire qu'il n'y a pas de mode instable et non observable dans le système 
+\item [-] Les signaux w(t) et v(t) sont des bruits blancs gaussiens centrés.
+\end{itemize}
+
+\paragraph{}L'objectif dans cette partie est de filtrer les mesures des capteurs $N_g$, $N_{tl}$ et surtout offrir un estimé du débit réel de carburant $W_f$. Pour cela nous réalisons un estimateur/filtre de Kalman.
+
+\paragraph{Remarque:}
+\paragraph{}Le filtre de Kalman était sujet de TP pendant deux séances dans ce Bureau d'étude. Les exercices faites nous ont permis d'approfondir les connaissances dans le principe et l'application du filtre de Kalman. 
+		
+	
 	\section{Équations du filtre de Kalman}
+	\paragraph{}Nous reprenons le modèle linéarisé présenté à la fin du chapitre Linéarisation. Nous supposerons donc que notre système perturbé peut être modélisé par le modèle d'état de Kalman parce qu'il satisfait les hypothèses nécessaires. Nous avons utilisé les fonctions de Kalman proposé par le Toolbox Matlab parce que la solution obtenue est optimale. 
+	
+	\paragraph{}Le modèle pris en compte pour calculer l'observateur de Kalman est le suivant :
+		
+\begin{displaymath}
+\left\{ \begin{array}{l} \dot{x} \quad = \quad \left[ \begin{array}{cccc}
+    -18.5185   &      0       &  0 \\
+   65.5871 &  -1.9835   &      0 \\
+   17.1650  &  0.8011  & -0.5289
+
+\end{array}\right]  x \quad + \quad \left[ \begin{array}{cc}
+ 18.5185\\
+         0 \\
+         0 
+\end{array} \right] u\\ \\
+y \quad = \quad \left[ \begin{array}{cccc}
+         0   & 1.0000     &    0 \\
+    0.0020  &  0.0002    &     0 \\
+    1.6012  & -0.0228    &     0 \\
+         0  &       0   & 1.0000
+\end{array} \right] x \quad + \quad \left[ \begin{array}{cc}
+0\\
+0\\
+0\\
+0
+\end{array} \right] u \end{array}\right.
+\end{displaymath}\\
+
+\paragraph{}L'objectif est d'estimer l'entrée du débit réel de carburant $W_f$. Pour cela on diminue le modèle en prenant une seule entrée. L'entrée $C_{charge}$ sera considerer comme une perturbation par la suite. 
+
+\subsection{Incertitudes sur les données}
+\paragraph{}Dans le cahier des charges les incertitudes relatives sont données pour chaque sortie. L'incertitude relative présente un nombre sans dimension qui caractérise la précision de la mesure. Ce nombre est le rapport entre l'incertitude et la valeur mesurée de la sortie. Pour chaque sortie estimée nous présenterons les intervalles de variation autour les valeurs nominales.\\ 
+
+\begin{itemize}
+\item [-] $ N_g = 0.1\%$
+\item [-] $ P_3 = 2\%$
+\item [-] $ N_{tl} = 0.1\%$
+\item [-] $ T_{45} = 2\%$
+\end{itemize}
+
+\paragraph{}Sur la figure suivante on peut observer les quatre sorties avec le bruit associé. Dans le script simulink nous avons ajouté un bruit  pour chaque sortie avec le block \emph{Band Limited White noise}. Les valeurs de la densité spectrale sont obtenues avec un produit de la précision relative et une constante. La précision relative nous donne la valeur de l'intervalle pour la sortie. Pour $N_{tl}$ la valeur nominale est $28000$, dont l'intervalle des valeurs est : $[28000 +\Delta N_g , 28000 -\Delta N_g ]$, avec $\Delta N_g = Precision * 28000$. 
+
+% insert figure
+%\begin{figure} [H]
+%\centering 
+%\scalebox{0.7}{ \input{./figures/sortie_bruit.tikz} }
+%\caption{Sorties bruitées avec \emph{white noise}} 
+%\label{fig:sortie_bruit}
+%\end{figure}
+
+\paragraph{}Dans le système nous considérons que les bruits du modèle ne sont par très importants ($10^{-5}$). Les bruits de mesure sont importants ($10^{-3}$), autrement dit peu de confiance dans les capteurs. Les matrices suivantes présentent la confiance dans les mesures (capteurs) et la confiance dans le modèle respectivement (matrices de covariance) :
+\begin{equation}		
+R_{N} =
+ \begin{pmatrix}
+  0.001 & 0 & 0 & 0\\
+  0 & 0.001 & 0 & 0\\
+  0 & 0 & 0.001 & 0\\
+  0 & 0 & 0 & 0.001
+ \end{pmatrix}
+\quad and
+\quad R_{N} =
+ \begin{pmatrix}
+  0.00001 
+  \end{pmatrix}
+\end{equation}
+
+\paragraph{}Les termes sur la diagonale de la matrice $R_N$ correspond au carré des écart-types maximaux de l'erreur que l'on autorise pour chacun des paramètres à estimer. Les valeurs choisi correspond à l'estimation sur les sorties et la valeur d'erreur autorisée. Il faut avoir conscience que si on définie des termes d'erreur trop petit par rapport à la réalité, le filtre de Kalman n'arrivera pas à rectifier les erreurs du modèle et fera des estimations biaisés. Si les erreurs sont trop importantes par rapport à la réalité, les estimations seront avec une covariance importante. Pour avoir la meilleure estimation nous avons choisi la même variance sur chaque paramètre en respectant les précision réelles des capteurs. 
 	
 	\section{Calcul du gain de Kalman}
+	\paragraph{}Avec la commande kalman sous \emph{Matlab} on obtient le gain du filtre et aussi la solution de l'équation de Ricatti qui donne la matrice de covariance de l'estimation d'erreur. Ensuite on simplifie le modèle d'état et on garde que les entrées et les sorties du observateur qui sont demandées dans le cahier des charges. La formule utilisée pour calculer le modèle d'état est :
+	
+	\begin{equation}
+	A_{kalman} = A_{lin} - K.C_{lin} \quad
+	B_{kalman} = [B_{lin}\quad K] \quad
+	C_{kalman} = I_{3} \quad
+	D_{kalman} = 0_{3}
+	\end{equation}
+	
+	Le modèle obtenu du filtre de Kalman est : 
+
+	\begin{displaymath}
+\left\{ \begin{array}{l} \dot{x} \quad = \quad \left[ \begin{array}{cccc}
+-18.74 &  -0.2354 & -0.06749\\
+ 65.11  &  -5.711  &  -1.564\\
+ 17.05 &  -0.7616  &  -1.628
+\end{array}\right]  x \quad + \quad \left[ \begin{array}{ccccc}
+18.52 & 0.2386 & 0.0002408 & 0.1393 & 0.06749\\
+0 & 3.735 & 0.001385 & 0.297 & 1.564\\
+0 & 1.564 & 0.0005146 & 0.07243 & 1.099
+\end{array} \right] u\\ \\
+y \quad = \quad \left[ \begin{array}{ccc}
+         1 & 0  & 0 \\
+    0 & 1 & 0 \\
+         0 & 0 & 1
+\end{array} \right] x \quad + \quad \left[ \begin{array}{ccccc}
+         0 & 0 & 0 & 0     &    0 \\
+    0 & 0 & 0 & 0 & 0\\
+         0 & 0 & 0 & 0 & 0
+\end{array} \right] u \end{array}\right.
+\end{displaymath}\\
+	
+\paragraph{}Ce modèle prend en entrée toutes les sorties du système linéaire et le débit du carburant $W_f$. En sortie du filtre de Kalman il donne les trois estimations : $W_f$, $N_g$ et $N_{tl}$ (les trois états du système). La figure suivante montre l'estimation du filtre de Kalman sur le vecteur d'état. L'allure des réponses correspond à une évolution suite à un changement de la consigne $W_f$. Le filtre de Kalman estime bien ses sorties : $W_f$, $N_{g}$ et $N_{tl}$.
+
+% Insert figure kalman estimation
+
+%\begin{figure} [H]
+%\centering 
+%\scalebox{0.7}{ \input{./figures/resultat_kalman.tikz} }
+%\caption{Sorties du observateur (filtre) de Kalman avec les sorties bruitées} 
+%\label{fig:resultat_kalman}
+%\end{figure}
+
+
+% Futur propositions et évolutions (Observateur a gain variable)	
+\paragraph{Observateur à gain variable}
+\paragraph{}L'intérêt d'utiliser un observateur à gain variable est d'estimer un système non linéaire. Autrement dit on doit appliquer un filtre de Kalman étendu. Ce filtre permet en effet de linéariser localement le problème et donc d'appliquer les équations du filtre de Kalman classique. Parce qu'on doit localiser le système autour d'un point d'équilibre à chaque étape, ceci assure donc la convergence locale de l'erreur, mais non celle globale. Un surcoût de calcul est constaté par rapport au filtre de Kalman classique. En effet, outre les opérations non linéaires introduit dans les équations d'états et de transitions, il faut recalculer à chaque étape les Jacobiennes de ces équations.
+
+\paragraph{}Une autre avantage de du gain variable est pour créer des résidus afin de détecter les pannes des capteurs. En appliquant un gain variable la dynamique du modèle change, et il peut perdre la stabilité asymptotique.
+

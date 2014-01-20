@@ -1,0 +1,62 @@
+close all;
+clc;
+
+%load('donnees_et_modeles_lineaires.mat')
+
+disp('--Filtre de Kalman--');
+% QN = E{ww'} [bruit sur l etat], [n,n] n=3    
+% RN = E{vv'} [bruis sur la mesure], [m,m] m=3
+% NN = E{wv'}=0 car decorrelees
+
+Precision_Ng = 0.001;
+Precision_P3 = 0.02;
+Precision_T45 = 0.02;
+Precision_Ntl = 0.001;
+
+QN = 1e-5 ;             % Confiance au mod?le (grand : peu de confiance)
+
+RN = [0.001 0 0 0 ;     % Confiance en la mesure (grand : peu de confiance)
+      0 0.001 0 0 ;
+      0 0 0.001 0 ;
+      0 0 0 0.001] ;
+ 
+disp('Systeme linearise (modele d etat) pour Kalman');  
+SYS_lin_K = ss(A_lin, B_lin(:,1), C_lin, 0)
+
+disp('Gain du filtre de Kalman');
+[KEST_lin, L_lin, P_lin] = kalman(SYS_lin_K, QN, RN, 0) 
+disp('Modele d etat avec l estimateur Kalman');
+K_kalman = ss(A_lin-L_lin*C_lin, [B_lin(:,1) L_lin], eye(3), 0)
+
+disp('Valeurs propres de la matrice dynamique');
+eig(K_kalman.a)
+
+%% Simulations (Syst?me Lin?aire VS Syst?me complet) : 
+close all ; 
+t_sim = 10, sim('sim_system_kalman', t_sim) ; 
+
+% Trace des mesures bruit?es
+figure('name', 'Sorties de capteurs (avec Bruit)', 'units','normalized','outerposition',[0 0 1 1])
+subplot(321), hold on, grid on, plot(D_Ng.time, D_Ng.signals.values, 'r'), plot(D_Ng.time, Ng_0 + Precision_Ng*Ng_0, 'b'), plot(D_Ng.time, Ng_0 - Precision_Ng*Ng_0, 'b'), xlabel('Temps [s]'), ylabel('N_g [1000tr/min]'), title('Evolution de Ng'), 
+subplot(322), hold on, grid on, plot(D_Ntl.time, D_Ntl.signals.values, 'r'),plot(D_Ng.time, Ntl_0 + Precision_Ntl*Ntl_0, 'b'), plot(D_Ng.time, Ntl_0 - Precision_Ntl*Ntl_0, 'b'), xlabel('Temps [s]'), ylabel('N_{tl} [1000tr/min]'), title('Evolution de Ntl') ; 
+subplot(323), hold on, grid on, plot(D_T45.time, D_T45.signals.values, 'r'),plot(D_T45.time, T45_0 + Precision_T45*T45_0, 'b'), plot(D_T45.time, T45_0 - Precision_T45*T45_0, 'b'), xlabel('Temps [s]'), ylabel('T_{45} [Degrees C]'), title('Evolution de T45') ;
+subplot(324), hold on, grid on, plot(D_P3.time, D_P3.signals.values, 'r'),plot(D_P3.time, P3_0 + Precision_P3*P3_0, 'b'), plot(P3.time, P3_0 - Precision_P3*P3_0, 'b'), xlabel('Temps [s]'), ylabel('P_{3} [Pa]'), title('Evolution de P3') ;
+subplot(3,2,[5:6]), hold on, grid on, plot(D_Wf.time, D_Wf.signals.values, 'r'),  xlabel('Temps [s]'), ylabel('W_f [L/h]'), title('Evolution de Wf') ;
+
+%matlab2tikz('../RapportLATEX/figures/sortie_bruit.tikz')
+
+
+
+%% Simulations (Syst?me Lin?aire VS Kalman) :
+t_sim = 20 ; sim('sim_system_kalman', t_sim) ; 
+ 
+% Syst?me Lin?aire en rouge et Kalman en vert
+figure('name', 'Syst?me lin?aris? avec un filtre de Kalman', 'units','normalized','outerposition',[0 0 1 1])
+subplot(221), hold on, grid on, plot(D_Wf.time, D_Wf.signals.values, 'r'), plot(K_Wf.time, K_Wf.signals.values, 'g', 'linewidth', 1), title('Evolutions de Wf'), legend('Lin?aire', 'Kalman') ,
+subplot(222), hold on, grid on, plot(D_Ng.time, D_Ng.signals.values, 'r'), plot(K_Ng.time, K_Ng.signals.values, 'g', 'linewidth', 1), title('Evolution de Ng') ;
+subplot(223), hold on, grid on, plot(D_Ntl.time, D_Ntl.signals.values, 'r'), plot(K_Ntl.time, K_Ntl.signals.values, 'g', 'linewidth', 1), title('Evolution de Ntl') ; 
+
+%matlab2tikz('../RapportLATEX/figures/resultat_kalman.tikz')
+
+% Remarque : Forc?ment, Wf est exactement le m?me puisque Wf n'?tait pas
+% bruit?
